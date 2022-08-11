@@ -33,7 +33,7 @@ import de.schildbach.wallet.data.PaymentIntent;
 import de.schildbach.wallet.ui.WalletActivity;
 import de.schildbach.wallet.ui.send.FeeCategory;
 import de.schildbach.wallet.ui.send.SendCoinsActivity;
-import org.bitcoinj.core.Coin;
+import org.bitcoinj.base.Coin;
 import org.bitcoinj.utils.ContextPropagatingThreadFactory;
 import org.bitcoinj.base.utils.MonetaryFormat;
 import org.bitcoinj.wallet.Wallet;
