@@ -29,9 +29,6 @@ import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-/**
- * @author Andreas Schildbach
- */
 public class Nfc {
     private static final Logger log = LoggerFactory.getLogger(Nfc.class);
 

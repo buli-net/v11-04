@@ -30,9 +30,6 @@ import org.bitcoinj.utils.ExchangeRate;
 
 import java.util.Date;
 
-/**
- * @author Andreas Schildbach
- */
 @Entity(tableName = ExchangeRateEntry.TABLE_NAME, indices = { @Index(value = { "source", "currency_code" },
         unique = true) })
 public final class ExchangeRateEntry {

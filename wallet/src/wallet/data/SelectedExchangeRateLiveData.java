@@ -31,9 +31,6 @@ import wallet.exchangerate.ExchangeRatesRepository;
 
 import java.util.Set;
 
-/**
- * @author Andreas Schildbach
- */
 public class SelectedExchangeRateLiveData extends LiveData<ExchangeRateEntry> implements OnSharedPreferenceChangeListener {
     private final Configuration config;
     private final ExchangeRateDao dao;

@@ -45,9 +45,6 @@ import java.util.Arrays;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-/**
- * @author Andreas Schildbach
- */
 public final class PaymentIntent implements Parcelable {
     public enum Standard {
         BIP21, BIP70

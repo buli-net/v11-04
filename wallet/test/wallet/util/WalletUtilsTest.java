@@ -23,9 +23,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-/**
- * @author Andreas Schildbach
- */
 public class WalletUtilsTest {
     @Test
     public void restoreWalletFromProtobufOrBase58() throws Exception {

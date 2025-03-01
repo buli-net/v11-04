@@ -26,9 +26,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * @author Andreas Schildbach
- */
 public class CoinGeckoTest {
     private final CoinGecko coinGecko = new CoinGecko(new Moshi.Builder().build());
 

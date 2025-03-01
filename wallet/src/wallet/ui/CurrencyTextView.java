@@ -31,9 +31,6 @@ import wallet.Constants;
 import wallet.R;
 import wallet.util.MonetarySpannable;
 
-/**
- * @author Andreas Schildbach
- */
 public final class CurrencyTextView extends TextView {
     private Monetary amount = null;
     private MonetaryFormat format = null;

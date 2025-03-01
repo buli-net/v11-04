@@ -19,9 +19,6 @@ package wallet.util;
 
 import java.util.Currency;
 
-/**
- * @author Andreas Schildbach
- */
 public class GenericUtils {
     public static boolean startsWithIgnoreCase(final String string, final String prefix) {
         return string.regionMatches(true, 0, prefix, 0, prefix.length());

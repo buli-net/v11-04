@@ -37,9 +37,6 @@ import wallet.ui.AbstractWalletActivity;
 
 import java.util.List;
 
-/**
- * @author Andreas Schildbach
- */
 public final class PeerListFragment extends Fragment implements PeerListAdapter.OnClickListener {
     private AbstractWalletActivity activity;
 

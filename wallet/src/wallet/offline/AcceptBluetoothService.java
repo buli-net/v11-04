@@ -50,9 +50,6 @@ import java.io.IOException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-/**
- * @author Andreas Schildbach
- */
 public final class AcceptBluetoothService extends LifecycleService {
     private WalletApplication application;
     private WalletLiveData wallet;

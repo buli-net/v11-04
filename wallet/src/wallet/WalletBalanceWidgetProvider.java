@@ -53,9 +53,6 @@ import java.lang.reflect.Method;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-/**
- * @author Andreas Schildbach
- */
 public class WalletBalanceWidgetProvider extends AppWidgetProvider {
     private final Executor executor = Executors.newSingleThreadExecutor(new ContextPropagatingThreadFactory("appwidget"));
 

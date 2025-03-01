@@ -25,9 +25,6 @@ import wallet.WalletApplication;
 import wallet.data.WalletBalanceLiveData;
 import wallet.ui.Event;
 
-/**
- * @author Andreas Schildbach
- */
 public class RestoreWalletViewModel extends AndroidViewModel {
     private final WalletApplication application;
     public final WalletBalanceLiveData balance;

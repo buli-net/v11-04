@@ -25,9 +25,6 @@ import android.os.IBinder;
 import androidx.lifecycle.LiveData;
 import wallet.service.BlockchainService;
 
-/**
- * @author Andreas Schildbach
- */
 public class BlockchainServiceLiveData extends LiveData<BlockchainService> implements ServiceConnection {
     private final Context context;
 

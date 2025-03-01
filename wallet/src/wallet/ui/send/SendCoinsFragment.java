@@ -124,9 +124,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author Andreas Schildbach
- */
 public final class SendCoinsFragment extends Fragment {
     private AbstractWalletActivity activity;
     private WalletApplication application;

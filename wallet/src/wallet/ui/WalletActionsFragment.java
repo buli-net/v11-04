@@ -27,9 +27,6 @@ import android.widget.FrameLayout;
 import androidx.fragment.app.Fragment;
 import wallet.R;
 
-/**
- * @author Andreas Schildbach
- */
 public final class WalletActionsFragment extends Fragment {
     private WalletActivity activity;
 

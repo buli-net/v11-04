@@ -33,9 +33,6 @@ import wallet.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Andreas Schildbach
- */
 public class ViewPagerTabs extends View {
     public enum Mode { DYNAMIC, STATIC }
 

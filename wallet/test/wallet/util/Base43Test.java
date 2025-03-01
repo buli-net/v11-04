@@ -22,9 +22,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-/**
- * @author Andreas Schildbach
- */
 public class Base43Test {
     @Test
     public void encode() throws Exception {

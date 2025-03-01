@@ -20,9 +20,6 @@ package wallet.data;
 import org.bitcoinj.wallet.Wallet;
 import wallet.WalletApplication;
 
-/**
- * @author Andreas Schildbach
- */
 public class WalletLiveData extends AbstractWalletLiveData<Wallet> {
     public WalletLiveData(final WalletApplication application) {
         super(application, 0);

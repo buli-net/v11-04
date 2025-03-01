@@ -31,9 +31,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import wallet.Constants;
 
-/**
- * @author Andreas Schildbach
- */
 public abstract class SendCoinsOfflineTask {
     private final Wallet wallet;
     private final Handler backgroundHandler;

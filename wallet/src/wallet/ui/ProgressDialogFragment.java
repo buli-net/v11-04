@@ -26,9 +26,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-/**
- * @author Andreas Schildbach
- */
 public class ProgressDialogFragment extends DialogFragment {
     public static class Observer implements androidx.lifecycle.Observer<String> {
         private final FragmentManager fm;

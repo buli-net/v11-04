@@ -17,9 +17,6 @@
 
 package wallet.ui.send;
 
-/**
- * @author Andreas Schildbach
- */
 public enum FeeCategory {
     /**
      * We don't care when it confirms, but it should confirm at some time. Can be days or weeks.

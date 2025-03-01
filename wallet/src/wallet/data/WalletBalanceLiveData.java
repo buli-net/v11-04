@@ -33,9 +33,6 @@ import wallet.Configuration;
 import wallet.Constants;
 import wallet.WalletApplication;
 
-/**
- * @author Andreas Schildbach
- */
 public final class WalletBalanceLiveData extends AbstractWalletLiveData<Coin>
         implements OnSharedPreferenceChangeListener {
     private final BalanceType balanceType;

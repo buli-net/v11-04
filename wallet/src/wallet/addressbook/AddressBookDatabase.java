@@ -24,9 +24,6 @@ import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-/**
- * @author Andreas Schildbach
- */
 @Database(entities = { AddressBookEntry.class }, version = 2, exportSchema = false)
 public abstract class AddressBookDatabase extends RoomDatabase {
     public abstract AddressBookDao addressBookDao();

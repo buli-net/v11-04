@@ -22,9 +22,6 @@ import android.content.res.AssetManager;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * @author Andreas Schildbach
- */
 public class Assets {
     public static InputStream open(final AssetManager assets, final String filename) {
         try {

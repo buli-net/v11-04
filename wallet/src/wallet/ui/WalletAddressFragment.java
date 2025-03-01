@@ -38,9 +38,6 @@ import org.slf4j.LoggerFactory;
 import wallet.R;
 import wallet.util.Nfc;
 
-/**
- * @author Andreas Schildbach
- */
 public final class WalletAddressFragment extends Fragment {
     private WalletActivity activity;
     private FragmentManager fragmentManager;

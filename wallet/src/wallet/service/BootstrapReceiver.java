@@ -43,9 +43,6 @@ import wallet.ui.send.SendCoinsActivity;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-/**
- * @author Andreas Schildbach
- */
 public class BootstrapReceiver extends BroadcastReceiver {
     private final Executor executor = Executors.newSingleThreadExecutor(new ContextPropagatingThreadFactory("bootstrap"));
 

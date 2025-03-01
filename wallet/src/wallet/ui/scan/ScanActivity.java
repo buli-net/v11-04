@@ -68,9 +68,6 @@ import wallet.ui.Event;
 import java.util.EnumMap;
 import java.util.Map;
 
-/**
- * @author Andreas Schildbach
- */
 @SuppressWarnings("deprecation")
 public final class ScanActivity extends AbstractWalletActivity implements SurfaceTextureListener {
     private static final String INTENT_EXTRA_RESULT = "result";

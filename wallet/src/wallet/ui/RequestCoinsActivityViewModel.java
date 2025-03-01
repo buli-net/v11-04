@@ -20,9 +20,6 @@ package wallet.ui;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-/**
- * @author Andreas Schildbach
- */
 public class RequestCoinsActivityViewModel extends ViewModel {
     public final MutableLiveData<Event<Integer>> showHelpDialog = new MutableLiveData<>();
 }

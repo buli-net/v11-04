@@ -71,9 +71,6 @@ import java.util.TimeZone;
 
 import static com.google.common.base.Preconditions.checkState;
 
-/**
- * @author Andreas Schildbach
- */
 public class BackupWalletDialogFragment extends DialogFragment {
     private static final String FRAGMENT_TAG = BackupWalletDialogFragment.class.getName();
 

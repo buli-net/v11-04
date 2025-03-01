@@ -36,9 +36,6 @@ import java.util.Hashtable;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-/**
- * @author Andreas Schildbach
- */
 public class Qr {
     private final static QRCodeWriter QR_CODE_WRITER = new QRCodeWriter();
 

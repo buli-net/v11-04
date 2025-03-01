@@ -58,9 +58,6 @@ import wallet.util.WalletUtils;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-/**
- * @author Andreas Schildbach
- */
 public class RaiseFeeDialogFragment extends DialogFragment {
     private static final String FRAGMENT_TAG = RaiseFeeDialogFragment.class.getName();
     private static final String KEY_TRANSACTION = "transaction";

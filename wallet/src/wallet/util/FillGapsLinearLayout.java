@@ -27,8 +27,6 @@ import androidx.annotation.Nullable;
  * This LinearLayout will avoid gaps by sizing its child's to the height (for horizontal orientation) or width (for
  * vertical orientation) of the largest child. This will never increase the size of the LinearLayout itself, only
  * fill the available gaps.
- *
- * @author Andreas Schildbach
  */
 public class FillGapsLinearLayout extends LinearLayout {
     public FillGapsLinearLayout(final Context context) {

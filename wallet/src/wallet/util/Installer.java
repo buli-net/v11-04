@@ -21,9 +21,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import okhttp3.HttpUrl;
 
-/**
- * @author Andreas Schildbach
- */
 public enum Installer {
     F_DROID("F-Droid"), GOOGLE_PLAY("Google Play"), AMAZON_APPSTORE("Amazon Appstore"), AURORA_STORE("Aurora Store");
 

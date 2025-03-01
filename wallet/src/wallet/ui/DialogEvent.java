@@ -20,9 +20,6 @@ package wallet.ui;
 import android.content.Context;
 import androidx.annotation.StringRes;
 
-/**
- * @author Andreas Schildbach
- */
 public class DialogEvent extends Event<DialogEvent.Params> {
     public static DialogEvent dialog(@StringRes final int titleResId, @StringRes final int messageResId,
                                      final Object... messageArgs) {

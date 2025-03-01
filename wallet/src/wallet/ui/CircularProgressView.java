@@ -28,9 +28,6 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
-/**
- * @author Andreas Schildbach
- */
 public class CircularProgressView extends View {
     private int width;
     private int height;

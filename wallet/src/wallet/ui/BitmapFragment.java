@@ -31,9 +31,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import wallet.R;
 
-/**
- * @author Andreas Schildbach
- */
 public class BitmapFragment extends DialogFragment {
     private static final String FRAGMENT_TAG = BitmapFragment.class.getName();
     private static final String KEY_BITMAP = "bitmap";

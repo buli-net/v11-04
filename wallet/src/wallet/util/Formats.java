@@ -23,9 +23,6 @@ import wallet.Constants;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * @author Andreas Schildbach
- */
 public final class Formats {
     public static final Pattern PATTERN_WHITESPACE = Pattern.compile("\\s+");
     public static final Pattern PATTERN_MONETARY_SPANNABLE = Pattern.compile("(?:([\\p{Alpha}\\p{Sc}]++)\\s?+)?" // prefix

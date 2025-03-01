@@ -27,9 +27,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-/**
- * @author Andreas Schildbach
- */
 public class FormatsTest {
     @Test
     public void monetarySpannable() throws Exception {

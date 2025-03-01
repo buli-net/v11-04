@@ -40,9 +40,6 @@ import wallet.data.SelectedExchangeRateLiveData;
 import wallet.util.Bluetooth;
 import wallet.util.Qr;
 
-/**
- * @author Andreas Schildbach
- */
 public class RequestCoinsViewModel extends AndroidViewModel {
     private final WalletApplication application;
     public final FreshReceiveAddressLiveData freshReceiveAddress;

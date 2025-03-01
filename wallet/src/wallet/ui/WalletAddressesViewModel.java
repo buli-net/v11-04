@@ -40,9 +40,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * @author Andreas Schildbach
- */
 public class WalletAddressesViewModel extends AndroidViewModel {
     private final WalletApplication application;
     public final IssuedReceiveAddressesLiveData issuedReceiveAddresses;

@@ -64,9 +64,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-/**
- * @author Andreas Schildbach
- */
 public class BlockListAdapter extends ListAdapter<BlockListAdapter.ListItem, RecyclerView.ViewHolder> {
     public static List<ListItem> buildListItems(final Context context, final List<StoredBlock> blocks, final Date currentTime,
             final MonetaryFormat format, final @Nullable Set<Transaction> transactions, final @Nullable Wallet wallet,

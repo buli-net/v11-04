@@ -28,9 +28,6 @@ import wallet.WalletApplication;
 import wallet.data.AbstractWalletLiveData;
 import wallet.util.OnFirstPreDraw;
 
-/**
- * @author Andreas Schildbach
- */
 public class WalletActivityViewModel extends AndroidViewModel implements OnFirstPreDraw.Callback {
     public enum EnterAnimationState {
         WAITING, ANIMATING, FINISHED

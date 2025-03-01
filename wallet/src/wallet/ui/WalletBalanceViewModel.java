@@ -23,9 +23,6 @@ import wallet.WalletApplication;
 import wallet.data.SelectedExchangeRateLiveData;
 import wallet.data.WalletBalanceLiveData;
 
-/**
- * @author Andreas Schildbach
- */
 public class WalletBalanceViewModel extends AndroidViewModel {
     private final WalletApplication application;
     private WalletBalanceLiveData balance;

@@ -71,9 +71,6 @@ import wallet.util.Bluetooth;
 import wallet.util.Nfc;
 import wallet.util.Toast;
 
-/**
- * @author Andreas Schildbach
- */
 public final class RequestCoinsFragment extends Fragment {
     private AbstractWalletActivity activity;
     private WalletApplication application;

@@ -62,9 +62,6 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.TimeZone;
 
-/**
- * @author Andreas Schildbach
- */
 public class ReportIssueDialogFragment extends DialogFragment {
     private static final String FRAGMENT_TAG = ReportIssueDialogFragment.class.getName();
     private static final String KEY_TITLE = "title";

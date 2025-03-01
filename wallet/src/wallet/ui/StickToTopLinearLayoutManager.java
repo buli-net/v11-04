@@ -21,9 +21,6 @@ import android.content.Context;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-/**
- * @author Andreas Schildbach
- */
 public class StickToTopLinearLayoutManager extends LinearLayoutManager {
     public StickToTopLinearLayoutManager(final Context context) {
         super(context);

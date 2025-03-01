@@ -30,9 +30,6 @@ import wallet.R;
 import wallet.WalletApplication;
 import wallet.util.Toast;
 
-/**
- * @author Andreas Schildbach
- */
 public abstract class AbstractWalletActivity extends FragmentActivity {
     private WalletApplication application;
 

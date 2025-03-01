@@ -21,9 +21,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-/**
- * @author Andreas Schildbach
- */
 public class Toast {
     private final Context context;
     private final Handler handler = new Handler(Looper.getMainLooper());

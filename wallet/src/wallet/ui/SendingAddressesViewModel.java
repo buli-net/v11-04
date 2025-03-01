@@ -36,9 +36,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * @author Andreas Schildbach
- */
 public class SendingAddressesViewModel extends AndroidViewModel {
     private final WalletApplication application;
     public LiveData<List<AddressBookEntry>> addressBook;

@@ -26,9 +26,6 @@ import org.bitcoinj.core.Transaction;
 import org.bitcoinj.core.TransactionConfidence;
 import wallet.WalletApplication;
 
-/**
- * @author Andreas Schildbach
- */
 public class TransactionLiveData extends LiveData<Transaction> implements TransactionConfidence.Listener {
     private final Application application;
     private final Handler handler = new Handler();

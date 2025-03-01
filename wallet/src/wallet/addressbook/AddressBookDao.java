@@ -26,9 +26,6 @@ import androidx.room.Query;
 import java.util.List;
 import java.util.Set;
 
-/**
- * @author Andreas Schildbach
- */
 @Dao
 public interface AddressBookDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

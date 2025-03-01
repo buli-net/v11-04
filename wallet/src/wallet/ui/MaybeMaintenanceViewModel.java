@@ -32,9 +32,6 @@ import wallet.service.BlockchainState;
 
 import java.util.List;
 
-/**
- * @author Andreas Schildbach
- */
 public class MaybeMaintenanceViewModel extends AndroidViewModel {
     private final WalletApplication application;
     private final WalletMaintenanceRecommendedLiveData walletMaintenanceRecommended;

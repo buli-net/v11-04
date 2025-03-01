@@ -35,9 +35,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.TimeZone;
 
-/**
- * @author Andreas Schildbach
- */
 public class CrashReporter {
     private static final String BACKGROUND_TRACES_FILENAME = "background.trace";
     private static final String CRASH_TRACE_FILENAME = "crash.trace";

@@ -21,9 +21,6 @@ import java.util.Date;
 import java.util.EnumSet;
 import java.util.Set;
 
-/**
- * @author Andreas Schildbach
- */
 public class BlockchainState {
     public enum Impediment {
         STORAGE, NETWORK

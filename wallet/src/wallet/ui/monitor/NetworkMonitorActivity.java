@@ -35,9 +35,6 @@ import wallet.ui.AbstractWalletActivity;
 import wallet.util.ViewPagerTabs;
 import wallet.util.ZoomOutPageTransformer;
 
-/**
- * @author Andreas Schildbach
- */
 public final class NetworkMonitorActivity extends AbstractWalletActivity {
     private static final int POSITION_PEER_LIST = 0;
     private static final int POSITION_BLOCK_LIST = 1;

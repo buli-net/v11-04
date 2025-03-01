@@ -29,9 +29,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.UUID;
 
-/**
- * @author Andreas Schildbach
- */
 public class Bluetooth {
     /** Used for local fetching of BIP70 payment requests. */
     public static final UUID PAYMENT_REQUESTS_UUID = UUID.fromString("3357A7BB-762D-464A-8D9A-DCA592D57D59");

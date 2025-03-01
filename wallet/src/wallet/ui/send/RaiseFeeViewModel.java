@@ -22,9 +22,6 @@ import androidx.lifecycle.AndroidViewModel;
 import wallet.WalletApplication;
 import wallet.data.DynamicFeeLiveData;
 
-/**
- * @author Andreas Schildbach
- */
 public class RaiseFeeViewModel extends AndroidViewModel {
     private final WalletApplication application;
     private DynamicFeeLiveData dynamicFees;

@@ -52,9 +52,6 @@ import wallet.ui.send.SendCoinsActivity;
 import wallet.util.Qr;
 import wallet.util.Toast;
 
-/**
- * @author Andreas Schildbach
- */
 public final class SendingAddressesFragment extends Fragment implements AddressBookAdapter.OnClickListener,
         AddressBookAdapter.ContextMenuCallback {
     private AbstractWalletActivity activity;

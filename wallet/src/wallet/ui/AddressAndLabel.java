@@ -26,9 +26,6 @@ import org.bitcoinj.base.exceptions.AddressFormatException;
 import org.bitcoinj.core.NetworkParameters;
 import wallet.Constants;
 
-/**
- * @author Andreas Schildbach
- */
 public class AddressAndLabel implements Parcelable {
     public final Address address;
     public final String label;

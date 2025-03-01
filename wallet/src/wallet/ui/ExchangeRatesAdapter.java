@@ -49,9 +49,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * @author Andreas Schildbach
- */
 public class ExchangeRatesAdapter extends ListAdapter<ExchangeRatesAdapter.ListItem, ExchangeRatesAdapter.ViewHolder> {
     public static List<ListItem> buildListItems(final List<ExchangeRateEntry> exchangeRates, final Coin balance,
                                                 final BlockchainState blockchainState, final String defaultCurrency,

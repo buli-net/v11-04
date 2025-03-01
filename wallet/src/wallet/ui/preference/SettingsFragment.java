@@ -54,9 +54,6 @@ import java.net.InetSocketAddress;
 import java.util.Locale;
 import java.util.Set;
 
-/**
- * @author Andreas Schildbach
- */
 public final class SettingsFragment extends PreferenceFragment implements OnPreferenceChangeListener {
     private Activity activity;
     private WalletApplication application;

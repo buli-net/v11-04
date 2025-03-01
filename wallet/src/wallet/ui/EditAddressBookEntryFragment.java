@@ -41,9 +41,6 @@ import wallet.addressbook.AddressBookDatabase;
 import wallet.addressbook.AddressBookEntry;
 import wallet.util.WalletUtils;
 
-/**
- * @author Andreas Schildbach
- */
 public final class EditAddressBookEntryFragment extends DialogFragment {
     private static final String FRAGMENT_TAG = EditAddressBookEntryFragment.class.getName();
 

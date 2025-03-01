@@ -24,9 +24,6 @@ import wallet.WalletApplication;
 import wallet.WalletApplication.OnWalletLoadedListener;
 import wallet.ui.Event;
 
-/**
- * @author Andreas Schildbach
- */
 public abstract class AbstractWalletLiveData<T> extends ThrottelingLiveData<T> implements Observer<Event<Void>> {
     private final WalletApplication application;
     private final Handler handler = new Handler();

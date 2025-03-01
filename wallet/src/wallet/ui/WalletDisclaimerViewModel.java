@@ -25,9 +25,6 @@ import androidx.lifecycle.LiveData;
 import wallet.Configuration;
 import wallet.WalletApplication;
 
-/**
- * @author Andreas Schildbach
- */
 public class WalletDisclaimerViewModel extends AndroidViewModel {
     private final WalletApplication application;
     private DisclaimerEnabledLiveData disclaimerEnabled;

@@ -68,9 +68,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author Andreas Schildbach
- */
 public class WalletApplication extends Application {
     private ActivityManager activityManager;
 

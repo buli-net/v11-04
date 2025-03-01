@@ -46,9 +46,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * @author Andreas Schildbach
- */
 public class SendCoinsViewModel extends AndroidViewModel {
     public enum State {
         REQUEST_PAYMENT_REQUEST, //

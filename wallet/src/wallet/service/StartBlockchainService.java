@@ -32,9 +32,6 @@ import wallet.Configuration;
 import wallet.Constants;
 import wallet.WalletApplication;
 
-/**
- * @author Andreas Schildbach
- */
 public class StartBlockchainService extends JobService {
     private PowerManager pm;
 

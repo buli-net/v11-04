@@ -23,9 +23,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import wallet.ui.send.MaintenanceDialogFragment;
 
-/**
- * @author Andreas Schildbach
- */
 public class MaybeMaintenanceFragment extends Fragment {
     private static final String FRAGMENT_TAG = MaybeMaintenanceFragment.class.getName();
 

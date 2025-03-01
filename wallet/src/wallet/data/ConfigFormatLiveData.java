@@ -23,9 +23,6 @@ import org.bitcoinj.base.utils.MonetaryFormat;
 import wallet.Configuration;
 import wallet.WalletApplication;
 
-/**
- * @author Andreas Schildbach
- */
 public class ConfigFormatLiveData extends LiveData<MonetaryFormat>
         implements SharedPreferences.OnSharedPreferenceChangeListener {
     private final Configuration config;

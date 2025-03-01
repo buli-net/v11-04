@@ -54,9 +54,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * @author Andreas Schildbach
- */
 public class WalletTransactionsViewModel extends AndroidViewModel {
     public enum Direction {
         RECEIVED, SENT

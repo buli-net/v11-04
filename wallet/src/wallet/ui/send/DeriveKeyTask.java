@@ -30,9 +30,6 @@ import wallet.Constants;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-/**
- * @author Andreas Schildbach
- */
 public abstract class DeriveKeyTask {
     private final Handler backgroundHandler;
     private final Handler callbackHandler;

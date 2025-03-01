@@ -22,9 +22,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import wallet.ui.AbstractWalletActivity;
 
-/**
- * @author Andreas Schildbach
- */
 public class BackupWalletActivity extends AbstractWalletActivity {
 
     public static void start(final Context context) {

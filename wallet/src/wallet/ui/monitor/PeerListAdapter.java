@@ -50,9 +50,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-/**
- * @author Andreas Schildbach
- */
 public class PeerListAdapter extends ListAdapter<PeerListAdapter.ListItem, PeerListAdapter.ViewHolder> {
     public static List<ListItem> buildListItems(final Context context, final List<Peer> peers,
             final Map<InetAddress, String> hostnames) {

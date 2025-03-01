@@ -43,9 +43,6 @@ import wallet.service.BlockchainState;
 import wallet.ui.send.FeeCategory;
 import wallet.ui.send.SendCoinsActivity;
 
-/**
- * @author Andreas Schildbach
- */
 public final class WalletBalanceFragment extends Fragment {
     private WalletActivity activity;
     private WalletApplication application;

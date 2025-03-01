@@ -21,9 +21,6 @@ import android.graphics.Typeface;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 
-/**
- * @author Andreas Schildbach
- */
 public class WholeStringBuilder extends SpannableStringBuilder {
     public static CharSequence bold(final CharSequence text) {
         return new WholeStringBuilder(text, new StyleSpan(Typeface.BOLD));

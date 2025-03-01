@@ -47,9 +47,6 @@ import java.util.Arrays;
  * where: cipher.txt = file containing the cipher text plain.txt - where you want the plaintext to be saved
  * 
  * substitute your password for "aTestPassword" or remove the "-pass" parameter to be prompted.
- * 
- * @author jim
- * @author Andreas Schildbach
  */
 public class Crypto {
     private static final BaseEncoding BASE64_ENCRYPT = BaseEncoding.base64().withSeparator("\n", 76);

@@ -26,9 +26,6 @@ import wallet.WalletApplication;
 
 import java.util.Date;
 
-/**
- * @author Andreas Schildbach
- */
 public class TimeLiveData extends LiveData<Date> {
     private final WalletApplication application;
 

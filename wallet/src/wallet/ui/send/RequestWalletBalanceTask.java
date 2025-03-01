@@ -84,9 +84,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author Andreas Schildbach
- */
 public final class RequestWalletBalanceTask {
     private final Handler backgroundHandler;
     private final Handler callbackHandler;

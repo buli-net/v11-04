@@ -34,9 +34,6 @@ import wallet.data.BlockchainServiceLiveData;
 import wallet.data.WalletLiveData;
 import wallet.service.BlockchainService;
 
-/**
- * @author Andreas Schildbach
- */
 public class AbstractWalletActivityViewModel extends AndroidViewModel {
     private final WalletApplication application;
     public final BlockchainServiceLiveData blockchainService;

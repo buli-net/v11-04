@@ -32,9 +32,6 @@ import wallet.R;
 import wallet.service.BlockchainService;
 import wallet.ui.AbstractWalletActivity;
 
-/**
- * @author Andreas Schildbach
- */
 public final class SweepWalletActivity extends AbstractWalletActivity {
     public static final String INTENT_EXTRA_KEY = "sweep_key";
 

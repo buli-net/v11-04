@@ -21,9 +21,6 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
-/**
- * @author Andreas Schildbach
- */
 public class SeparatorViewHolder extends RecyclerView.ViewHolder {
     public final TextView label;
 

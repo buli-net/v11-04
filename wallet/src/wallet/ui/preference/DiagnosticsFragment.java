@@ -36,9 +36,6 @@ import wallet.ui.DialogBuilder;
 
 import java.util.Locale;
 
-/**
- * @author Andreas Schildbach
- */
 public final class DiagnosticsFragment extends PreferenceFragment {
     private Activity activity;
     private WalletApplication application;

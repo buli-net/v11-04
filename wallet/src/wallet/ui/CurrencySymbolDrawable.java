@@ -24,9 +24,6 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import wallet.Constants;
 
-/**
- * @author Andreas Schildbach
- */
 public final class CurrencySymbolDrawable extends Drawable {
     private final Paint paint = new Paint();
     private final String symbol;

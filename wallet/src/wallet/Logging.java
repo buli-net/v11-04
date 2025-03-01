@@ -29,9 +29,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
-/**
- * @author Andreas Schildbach
- */
 public class Logging {
     private static final String LOG_DIRECTORY_NAME = "log";
     private static final String LOG_FILE_NAME = "wallet.log";

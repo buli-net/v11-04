@@ -27,9 +27,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import wallet.R;
 
-/**
- * @author Andreas Schildbach
- */
 public final class ExchangeRatesActivity extends AbstractWalletActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

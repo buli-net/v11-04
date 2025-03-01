@@ -31,9 +31,6 @@ import wallet.ui.scan.ScanActivity;
 import wallet.ui.send.SendCoinsActivity;
 import wallet.ui.send.SweepWalletActivity;
 
-/**
- * @author Andreas Schildbach
- */
 public final class SendCoinsQrActivity extends AbstractWalletActivity {
     private AbstractWalletActivityViewModel walletActivityViewModel;
 

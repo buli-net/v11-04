@@ -45,9 +45,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * @author Andreas Schildbach
- */
 public abstract class DirectPaymentTask {
     private final Handler backgroundHandler;
     private final Handler callbackHandler;

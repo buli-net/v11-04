@@ -22,9 +22,6 @@ import android.os.Looper;
 import org.bitcoinj.crypto.BIP38PrivateKey;
 import org.bitcoinj.crypto.ECKey;
 
-/**
- * @author Andreas Schildbach
- */
 public abstract class DecodePrivateKeyTask {
     private final Handler backgroundHandler;
     private final Handler callbackHandler;

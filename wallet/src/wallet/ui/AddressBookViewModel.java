@@ -21,9 +21,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import org.bitcoinj.base.Address;
 
-/**
- * @author Andreas Schildbach
- */
 public class AddressBookViewModel extends ViewModel {
     public final MutableLiveData<Address> selectedAddress = new MutableLiveData<>();
     public final MutableLiveData<Event<Integer>> pageTo = new MutableLiveData<>();

@@ -40,9 +40,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * @author Andreas Schildbach
- */
 public class BlockListViewModel extends AndroidViewModel {
     private final WalletApplication application;
     private final BlockchainServiceLiveData blockchainService;

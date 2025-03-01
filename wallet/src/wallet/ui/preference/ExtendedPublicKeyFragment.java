@@ -33,9 +33,6 @@ import wallet.R;
 import wallet.ui.DialogBuilder;
 import wallet.util.Qr;
 
-/**
- * @author Andreas Schildbach
- */
 public class ExtendedPublicKeyFragment extends DialogFragment {
     private static final String FRAGMENT_TAG = ExtendedPublicKeyFragment.class.getName();
 

@@ -56,9 +56,6 @@ import wallet.util.WalletUtils;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * @author Andreas Schildbach
- */
 public class MaintenanceDialogFragment extends DialogFragment {
     private static final String FRAGMENT_TAG = MaintenanceDialogFragment.class.getName();
 

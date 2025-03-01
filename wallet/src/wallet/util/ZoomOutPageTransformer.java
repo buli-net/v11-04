@@ -20,9 +20,6 @@ package wallet.util;
 import android.view.View;
 import androidx.viewpager2.widget.ViewPager2;
 
-/**
- * @author Andreas Schildbach
- */
 public final class ZoomOutPageTransformer implements ViewPager2.PageTransformer {
     private static final float MIN_SCALE = 0.85f;
     private static final float MIN_ALPHA = 0.5f;

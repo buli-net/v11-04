@@ -61,9 +61,6 @@ import wallet.ui.send.RaiseFeeDialogFragment;
 import wallet.util.Qr;
 import wallet.util.WalletUtils;
 
-/**
- * @author Andreas Schildbach
- */
 public class WalletTransactionsFragment extends Fragment implements TransactionsAdapter.OnClickListener,
         TransactionsAdapter.ContextMenuCallback {
     private AbstractWalletActivity activity;

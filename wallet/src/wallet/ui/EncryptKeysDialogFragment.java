@@ -52,9 +52,6 @@ import wallet.R;
 import wallet.WalletApplication;
 import wallet.util.WalletUtils;
 
-/**
- * @author Andreas Schildbach
- */
 public class EncryptKeysDialogFragment extends DialogFragment {
     private static final String FRAGMENT_TAG = EncryptKeysDialogFragment.class.getName();
 

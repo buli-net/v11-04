@@ -44,9 +44,6 @@ import wallet.util.Qr;
 
 import java.util.Locale;
 
-/**
- * @author Andreas Schildbach
- */
 public class WalletAddressViewModel extends AndroidViewModel {
     private final WalletApplication application;
     public final CurrentAddressLiveData currentAddress;

@@ -26,9 +26,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-/**
- * @author Andreas Schildbach
- */
 public class OnFirstPreDraw implements ViewTreeObserver.OnPreDrawListener {
     public interface Callback {
         boolean onFirstPreDraw();

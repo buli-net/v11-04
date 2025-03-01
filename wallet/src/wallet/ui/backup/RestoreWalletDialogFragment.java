@@ -63,9 +63,6 @@ import java.nio.charset.StandardCharsets;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-/**
- * @author Andreas Schildbach
- */
 public class RestoreWalletDialogFragment extends DialogFragment {
     private static final String FRAGMENT_TAG = RestoreWalletDialogFragment.class.getName();
     private static final String KEY_BACKUP_URI = "backup_uri";

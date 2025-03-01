@@ -27,9 +27,6 @@ import androidx.fragment.app.FragmentManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author Andreas Schildbach
- */
 public final class HelpDialogFragment extends DialogFragment {
     private static final String FRAGMENT_TAG = HelpDialogFragment.class.getName();
 

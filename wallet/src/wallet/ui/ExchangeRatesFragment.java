@@ -48,9 +48,6 @@ import wallet.exchangerate.ExchangeRateEntry;
 
 import java.util.List;
 
-/**
- * @author Andreas Schildbach
- */
 public final class ExchangeRatesFragment extends Fragment implements OnSharedPreferenceChangeListener,
         ExchangeRatesAdapter.OnClickListener, ExchangeRatesAdapter.ContextMenuCallback {
     private AbstractWalletActivity activity;

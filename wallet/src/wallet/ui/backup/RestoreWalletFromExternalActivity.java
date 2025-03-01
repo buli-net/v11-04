@@ -22,9 +22,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import wallet.ui.AbstractWalletActivity;
 
-/**
- * @author Andreas Schildbach
- */
 public final class RestoreWalletFromExternalActivity extends AbstractWalletActivity {
 
     private static final Logger log = LoggerFactory.getLogger(RestoreWalletFromExternalActivity.class);

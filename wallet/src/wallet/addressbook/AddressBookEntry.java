@@ -26,9 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author Andreas Schildbach
- */
 @Entity(tableName = AddressBookEntry.TABLE_NAME)
 public class AddressBookEntry {
     public static final String TABLE_NAME = "address_book";

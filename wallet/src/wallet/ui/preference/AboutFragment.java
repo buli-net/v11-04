@@ -37,9 +37,6 @@ import wallet.util.WalletUtils;
 
 import java.io.IOException;
 
-/**
- * @author Andreas Schildbach
- */
 public final class AboutFragment extends PreferenceFragment {
     private WalletApplication application;
     private PackageManager packageManager;

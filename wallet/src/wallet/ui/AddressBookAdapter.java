@@ -52,9 +52,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-/**
- * @author Andreas Schildbach
- */
 public class AddressBookAdapter extends ListAdapter<AddressBookAdapter.ListItem, RecyclerView.ViewHolder> {
     public static List<ListItem> buildListItems(final Context context,
                                                 final Collection<Address> derivedAddresses,

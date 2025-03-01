@@ -35,9 +35,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * @author Andreas Schildbach
- */
 @SuppressWarnings("deprecation")
 public final class CameraManager {
     private static final int MIN_FRAME_SIZE = 240;

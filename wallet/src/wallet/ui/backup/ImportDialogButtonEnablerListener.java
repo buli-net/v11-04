@@ -27,9 +27,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-/**
- * @author Andreas Schildbach
- */
 public class ImportDialogButtonEnablerListener implements TextWatcher, OnItemSelectedListener {
     private final TextView passwordView;
     private final AlertDialog dialog;

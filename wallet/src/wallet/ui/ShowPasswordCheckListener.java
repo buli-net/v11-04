@@ -23,9 +23,6 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 
-/**
- * @author Andreas Schildbach
- */
 public final class ShowPasswordCheckListener implements OnCheckedChangeListener {
     private EditText[] passwordViews;
 

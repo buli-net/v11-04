@@ -20,9 +20,6 @@ package wallet.ui.monitor;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-/**
- * @author Andreas Schildbach
- */
 public class NetworkMonitorViewModel extends ViewModel {
     public final MutableLiveData<Object> selectedItem = new MutableLiveData<>();
 }

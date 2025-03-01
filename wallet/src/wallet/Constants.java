@@ -38,9 +38,6 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author Andreas Schildbach
- */
 public final class Constants {
 
     /** Network this wallet is on. */

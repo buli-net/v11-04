@@ -65,9 +65,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-/**
- * @author Andreas Schildbach
- */
 public class TransactionsAdapter extends ListAdapter<TransactionsAdapter.ListItem, RecyclerView.ViewHolder> {
     public static List<ListItem> buildListItems(final Context context, final List<Transaction> transactions,
             final WarningType warning, final @Nullable Wallet wallet,

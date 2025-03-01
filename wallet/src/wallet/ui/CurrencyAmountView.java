@@ -45,9 +45,6 @@ import wallet.util.MonetarySpannable;
 
 import java.util.Objects;
 
-/**
- * @author Andreas Schildbach
- */
 public final class CurrencyAmountView extends FrameLayout {
     public interface Listener {
         void changed();

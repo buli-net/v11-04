@@ -47,9 +47,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-/**
- * @author Andreas Schildbach
- */
 public class WalletUtils {
     private static final Logger log = LoggerFactory.getLogger(WalletUtils.class);
 

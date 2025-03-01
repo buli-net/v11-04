@@ -19,9 +19,6 @@ package wallet.ui;
 
 import static com.google.common.base.Preconditions.checkState;
 
-/**
- * @author Andreas Schildbach
- */
 public class Event<T> {
     private final T content;
     private boolean hasBeenHandled = false;

@@ -53,9 +53,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author Andreas Schildbach
- */
 public class DynamicFeeLiveData extends LiveData<Map<FeeCategory, Coin>> {
     private final HttpUrl dynamicFeesUrl;
     private final String userAgent;

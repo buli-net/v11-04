@@ -21,9 +21,6 @@ import android.os.Handler;
 import androidx.annotation.MainThread;
 import androidx.lifecycle.LiveData;
 
-/**
- * @author Andreas Schildbach
- */
 public abstract class ThrottelingLiveData<T> extends LiveData<T> {
     private final long throttleMs;
     private final Handler handler = new Handler();

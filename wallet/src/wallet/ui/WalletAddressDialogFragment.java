@@ -37,9 +37,6 @@ import wallet.Constants;
 import wallet.R;
 import wallet.util.WalletUtils;
 
-/**
- * @author Andreas Schildbach
- */
 public class WalletAddressDialogFragment extends DialogFragment {
     private static final String FRAGMENT_TAG = WalletAddressDialogFragment.class.getName();
 

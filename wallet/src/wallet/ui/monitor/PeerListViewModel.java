@@ -33,9 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author Andreas Schildbach
- */
 public class PeerListViewModel extends AndroidViewModel {
     private final WalletApplication application;
     private final BlockchainServiceLiveData blockchainService;

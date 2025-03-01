@@ -32,9 +32,6 @@ import wallet.exchangerate.ExchangeRatesRepository;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * @author Andreas Schildbach
- */
 public class ExchangeRatesViewModel extends AndroidViewModel {
     private final WalletApplication application;
     private final ExchangeRateDao exchangeRateDao;

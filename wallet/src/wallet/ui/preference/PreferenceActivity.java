@@ -26,9 +26,6 @@ import wallet.R;
 
 import java.util.List;
 
-/**
- * @author Andreas Schildbach
- */
 public final class PreferenceActivity extends android.preference.PreferenceActivity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {

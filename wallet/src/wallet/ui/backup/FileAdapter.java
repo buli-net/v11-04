@@ -28,9 +28,6 @@ import wallet.R;
 import java.io.File;
 import java.util.List;
 
-/**
- * @author Andreas Schildbach
- */
 public abstract class FileAdapter extends ArrayAdapter<File> {
     protected final Context context;
     protected final LayoutInflater inflater;

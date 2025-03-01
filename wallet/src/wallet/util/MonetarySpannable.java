@@ -31,9 +31,6 @@ import java.util.regex.Matcher;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-/**
- * @author Andreas Schildbach
- */
 public final class MonetarySpannable extends SpannableString {
     public MonetarySpannable(@Nullable final MonetaryFormat format, final boolean signed,
             @Nullable final Monetary monetary) {

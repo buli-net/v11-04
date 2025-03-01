@@ -74,9 +74,6 @@ import wallet.util.CrashReporter;
 import wallet.util.Nfc;
 import wallet.util.OnFirstPreDraw;
 
-/**
- * @author Andreas Schildbach
- */
 public final class WalletActivity extends AbstractWalletActivity {
     private WalletApplication application;
     private Configuration config;

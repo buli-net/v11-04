@@ -50,9 +50,6 @@ import wallet.ui.scan.ScanActivity;
 import wallet.util.ViewPagerTabs;
 import wallet.util.ZoomOutPageTransformer;
 
-/**
- * @author Andreas Schildbach
- */
 public final class AddressBookActivity extends AbstractWalletActivity {
     public static void start(final Context context) {
         context.startActivity(new Intent(context, AddressBookActivity.class));

@@ -27,9 +27,6 @@ import wallet.ui.CurrencyAmountView.Listener;
 
 import java.util.Objects;
 
-/**
- * @author Andreas Schildbach
- */
 public final class CurrencyCalculatorLink {
     private final CurrencyAmountView btcAmountView;
     private final CurrencyAmountView localAmountView;

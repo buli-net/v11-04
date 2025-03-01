@@ -30,9 +30,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import wallet.R;
 
-/**
- * @author Andreas Schildbach
- */
 public class DialogBuilder extends AlertDialog.Builder {
     private final View customTitle;
     private final ImageView iconView;

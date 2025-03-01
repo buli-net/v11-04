@@ -32,9 +32,6 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-/**
- * @author Andreas Schildbach
- */
 public class CryptoTest {
     private static final String PLAIN_TEXT = "plain text";
     private static final byte[] PLAIN_BYTES = PLAIN_TEXT.getBytes();

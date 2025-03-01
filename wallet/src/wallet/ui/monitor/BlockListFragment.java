@@ -50,9 +50,6 @@ import wallet.ui.StickToTopLinearLayoutManager;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author Andreas Schildbach
- */
 public final class BlockListFragment extends Fragment implements BlockListAdapter.OnClickListener,
         BlockListAdapter.ContextMenuCallback {
     private AbstractWalletActivity activity;

@@ -112,9 +112,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static com.google.common.base.Preconditions.checkState;
 
-/**
- * @author Andreas Schildbach
- */
 public class BlockchainService extends LifecycleService {
     private PowerManager pm;
     private NotificationManager nm;

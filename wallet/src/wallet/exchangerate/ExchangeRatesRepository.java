@@ -38,9 +38,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicLong;
 
-/**
- * @author Andreas Schildbach
- */
 public class ExchangeRatesRepository {
     private static ExchangeRatesRepository INSTANCE;
 

@@ -20,9 +20,6 @@ package wallet.ui.backup;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-/**
- * @author Andreas Schildbach
- */
 public class BackupWalletViewModel extends ViewModel {
     public final MutableLiveData<String> password = new MutableLiveData<>();
 }

@@ -35,9 +35,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-/**
- * @author Andreas Schildbach
- */
 public class ScannerView extends View {
     private static final long LASER_ANIMATION_DELAY_MS = 100l;
     private static final int DOT_OPACITY = 0xa0;

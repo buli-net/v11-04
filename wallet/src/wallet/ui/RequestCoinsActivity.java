@@ -38,9 +38,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import wallet.R;
 
-/**
- * @author Andreas Schildbach
- */
 public final class RequestCoinsActivity extends AbstractWalletActivity {
     public static final String INTENT_EXTRA_OUTPUT_SCRIPT_TYPE = "output_script_type";
 

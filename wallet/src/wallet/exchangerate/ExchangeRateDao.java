@@ -25,9 +25,6 @@ import androidx.room.Query;
 
 import java.util.List;
 
-/**
- * @author Andreas Schildbach
- */
 @Dao
 public interface ExchangeRateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

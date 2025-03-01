@@ -58,9 +58,6 @@ import wallet.util.Toast;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * @author Andreas Schildbach
- */
 public final class WalletAddressesFragment extends Fragment implements AddressBookAdapter.OnClickListener,
         AddressBookAdapter.ContextMenuCallback {
     private WalletApplication application;

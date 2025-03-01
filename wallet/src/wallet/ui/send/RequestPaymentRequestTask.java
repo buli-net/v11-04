@@ -43,9 +43,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-/**
- * @author Andreas Schildbach
- */
 public abstract class RequestPaymentRequestTask {
     private final Handler backgroundHandler;
     private final Handler callbackHandler;

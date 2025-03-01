@@ -38,9 +38,6 @@ import wallet.Constants;
 import wallet.R;
 import wallet.util.Installer;
 
-/**
- * @author Andreas Schildbach
- */
 public class AlertDialogsFragment extends Fragment {
     private static final String FRAGMENT_TAG = AlertDialogsFragment.class.getName();
 

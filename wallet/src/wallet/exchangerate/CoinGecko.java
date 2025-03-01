@@ -34,9 +34,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- * @author Andreas Schildbach
- */
 public final class CoinGecko {
     private static final HttpUrl URL = HttpUrl.parse("https://api.coingecko.com/api/v3/exchange_rates");
     private static final MediaType MEDIA_TYPE = MediaType.get("application/json");

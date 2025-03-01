@@ -36,10 +36,6 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * @author Shahar Livne
- * @author Andreas Schildbach
- */
 public abstract class AcceptBluetoothThread extends Thread {
     protected final BluetoothServerSocket listeningSocket;
     protected final AtomicBoolean running = new AtomicBoolean(true);

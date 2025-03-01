@@ -37,9 +37,6 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-/**
- * @author Andreas Schildbach
- */
 public class Configuration {
     public final int lastVersionCode;
 

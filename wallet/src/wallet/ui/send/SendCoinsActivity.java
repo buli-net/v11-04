@@ -44,9 +44,6 @@ import wallet.ui.AbstractWalletActivity;
 import wallet.ui.Event;
 import wallet.ui.HelpDialogFragment;
 
-/**
- * @author Andreas Schildbach
- */
 public final class SendCoinsActivity extends AbstractWalletActivity {
     public static final String INTENT_EXTRA_PAYMENT_INTENT = "payment_intent";
     public static final String INTENT_EXTRA_FEE_CATEGORY = "fee_category";

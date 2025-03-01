@@ -28,9 +28,6 @@ import java.net.UnknownHostException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-/**
- * @author Andreas Schildbach
- */
 public abstract class ResolveDnsTask {
     private final Handler backgroundHandler;
     private final Handler callbackHandler;

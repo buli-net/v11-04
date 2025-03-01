@@ -21,9 +21,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import wallet.ui.Event;
 
-/**
- * @author Andreas Schildbach
- */
 public class ScanViewModel extends ViewModel {
     public final MutableLiveData<Event<Void>> showPermissionWarnDialog = new MutableLiveData<>();
     public final MutableLiveData<Event<Void>> showProblemWarnDialog = new MutableLiveData<>();

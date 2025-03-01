@@ -56,9 +56,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Pattern;
 
-/**
- * @author Andreas Schildbach
- */
 public abstract class InputParser {
     private static final Logger log = LoggerFactory.getLogger(InputParser.class);
 

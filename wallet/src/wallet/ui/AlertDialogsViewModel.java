@@ -65,9 +65,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * @author Andreas Schildbach
- */
 public class AlertDialogsViewModel extends AndroidViewModel {
     private final WalletApplication application;
     private final Configuration config;

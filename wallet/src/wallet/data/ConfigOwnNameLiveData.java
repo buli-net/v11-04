@@ -22,9 +22,6 @@ import androidx.lifecycle.LiveData;
 import wallet.Configuration;
 import wallet.WalletApplication;
 
-/**
- * @author Andreas Schildbach
- */
 public class ConfigOwnNameLiveData extends LiveData<String>
         implements SharedPreferences.OnSharedPreferenceChangeListener {
     private final Configuration config;

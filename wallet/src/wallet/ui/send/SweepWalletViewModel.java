@@ -27,9 +27,6 @@ import wallet.data.DynamicFeeLiveData;
 import wallet.data.TransactionLiveData;
 import wallet.ui.DialogEvent;
 
-/**
- * @author Andreas Schildbach
- */
 public class SweepWalletViewModel extends AndroidViewModel {
     public enum State {
         DECODE_KEY, // ask for password

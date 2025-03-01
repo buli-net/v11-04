@@ -95,9 +95,6 @@ import java.util.TreeSet;
 
 import static com.google.common.base.Preconditions.checkState;
 
-/**
- * @author Andreas Schildbach
- */
 public class SweepWalletFragment extends Fragment {
     private AbstractWalletActivity activity;
     private WalletApplication application;

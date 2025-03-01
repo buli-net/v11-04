@@ -44,9 +44,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Andreas Schildbach
- */
 public abstract class ReportIssueDialogBuilder extends DialogBuilder implements OnClickListener {
     private final Activity activity;
 

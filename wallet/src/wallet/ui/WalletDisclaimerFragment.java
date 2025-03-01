@@ -36,9 +36,6 @@ import wallet.service.BlockchainState.Impediment;
 
 import java.util.Set;
 
-/**
- * @author Andreas Schildbach
- */
 public final class WalletDisclaimerFragment extends Fragment {
     private WalletActivity activity;
     private WalletApplication application;
