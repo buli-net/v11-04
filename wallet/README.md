@@ -6,21 +6,24 @@ Technical details
 Your wallet contains your private keys and various transaction related metadata. It is stored in app-private
 storage:
 
-    Mainnet: /data/data/de.schildbach.wallet/files/wallet-protobuf
     Testnet: /data/data/de.schildbach.wallet_test/files/wallet-protobuf-testnet
+    Signet:  /data/data/de.schildbach.wallet.signet/files/wallet-protobuf-signet
+    Mainnet: /data/data/de.schildbach.wallet/files/wallet-protobuf
 
 The wallet file format is not compatible to wallet.dat (Satoshi client). Rather, it uses a custom protobuf format
 which should be compatible between clients using bitcoinj.
 
 Certain actions cause automatic rolling backups of your wallet to app-private storage:
 
-    Mainnet: /data/data/de.schildbach.wallet/files/key-backup-protobuf
     Testnet: /data/data/de.schildbach.wallet_test/files/key-backup-protobuf-testnet
+    Signet:  /data/data/de.schildbach.wallet.signet/files/key-backup-protobuf-signet
+    Mainnet: /data/data/de.schildbach.wallet/files/key-backup-protobuf
 
 Your wallet can be manually backed up to and restored from a share of the storage access framework (likely Google Drive):
 
-    Mainnet: bitcoin-wallet-backup-<yyyy-MM-dd-HH-mm>
     Testnet: bitcoin-wallet-backup-testnet-<yyyy-MM-dd-HH-mm>
+    Signet:  bitcoin-wallet-backup-signet-<yyyy-MM-dd-HH-mm>
+    Mainnet: bitcoin-wallet-backup-<yyyy-MM-dd-HH-mm>
 
 If you want to recover coins from manual backups and for whatever reason you cannot use the app
 itself to restore from the backup, see the separate [README.recover.md](README.recover.md) guide.
@@ -28,15 +31,17 @@ itself to restore from the backup, see the separate [README.recover.md](README.r
 The current fee rate for each of the fee categories (economic, normal, priority) is cached in
 app-private storage:
 
-    Mainnet: /data/data/de.schildbach.wallet/files/fees.txt
     Testnet: /data/data/de.schildbach.wallet_test/files/fees-testnet.txt
+    Signet:  /data/data/de.schildbach.wallet.signet/files/fees-signet.txt
+    Mainnet: /data/data/de.schildbach.wallet/files/fees.txt
 
 
 ### DEBUGGING
 
-Wallet file for Testnet can be pulled from an (even un-rooted) device using:
+The wallet file can be pulled from a device using:
 
-    adb pull /data/data/de.schildbach.wallet_test/files/wallet-protobuf-testnet
+    Testnet: adb pull /data/data/de.schildbach.wallet_test/files/wallet-protobuf-testnet
+    Signet:  adb pull /data/data/de.schildbach.wallet.signet/files/wallet-protobuf-signet
 
 Log messages can be viewed by:
 
@@ -50,10 +55,10 @@ In the generated e-mail, replace the support address with yours.
 
 If you haven't done already, follow the **Prerequisites for Building** section in the [top-level README](../README.md).
 
-It's important to know that the development version uses Testnet, is debuggable and the wallet file
+It's important to know that the development version uses Testnet3 or Signet, is debuggable and the wallet file
 is world readable/writeable. The goal is to be able to debug easily.
 
-Finally, you can build Bitcoin Wallet and sign it with your development key. Again in your workspace,
+For Testnet3, you can build Bitcoin Wallet and sign it with your development key. Again in your workspace,
 use:
 
     # each time
@@ -63,12 +68,28 @@ You'll find the developer-signed APK under this path:
 
     wallet/build/outputs/apk/bitcoin-wallet-testnet-debug.apk
 
-To install the app on your Android device, use:
+To install the app on your Android device:
 
     gradle :wallet:installTestnetDebug
 
 If installation fails, make sure "Developer options" and "USB debugging" are enabled on your Android device, and an ADB
 connection is established.
+
+
+### BUILDING THE SIGNET VERSION
+
+Signet is similar in nature to testnet, but more reliable and centrally controlled. To build, use:
+
+    # each time
+    gradle clean test :wallet:assembleSignetDebug
+
+You'll find the developer-signed APK under this path:
+
+    wallet/build/outputs/apk/bitcoin-wallet-signet-debug.apk
+
+To install the app on Android device:
+
+    gradle :wallet:installSignetDebug
 
 
 ### BUILDING THE MAINNET VERSION

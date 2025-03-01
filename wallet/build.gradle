@@ -65,6 +65,10 @@ android {
             dimension 'network'
             applicationIdSuffix '.wallet_test'
         }
+        Signet {
+            dimension 'network'
+            applicationIdSuffix '.wallet.signet'
+        }
         Mainnet {
             dimension 'network'
             applicationIdSuffix '.wallet'
@@ -77,6 +81,10 @@ android {
             java.srcDirs = ['src']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
+        }
+        Signet {
+            res.srcDirs = ['res-signet']
+            assets.srcDirs = ['assets-signet']
         }
         Mainnet {
             res.srcDirs = ['res-mainnet']

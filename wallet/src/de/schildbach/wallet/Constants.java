@@ -28,6 +28,7 @@ import org.bitcoinj.base.Coin;
 import org.bitcoinj.core.Context;
 import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.params.MainNetParams;
+import org.bitcoinj.params.SigNetParams;
 import org.bitcoinj.params.TestNet3Params;
 import org.bitcoinj.base.ScriptType;
 import org.bitcoinj.base.utils.MonetaryFormat;
@@ -42,9 +43,18 @@ import java.util.concurrent.TimeUnit;
  */
 public final class Constants {
 
-    /** Network this wallet is on (e.g. testnet or mainnet). */
-    public static final NetworkParameters NETWORK_PARAMETERS =
-            !BuildConfig.FLAVOR.equalsIgnoreCase("mainnet") ? TestNet3Params.get() : MainNetParams.get();
+    /** Network this wallet is on. */
+    public static final NetworkParameters NETWORK_PARAMETERS;
+    static {
+        if (BuildConfig.FLAVOR.equalsIgnoreCase("testnet"))
+            NETWORK_PARAMETERS = TestNet3Params.get();
+        else if (BuildConfig.FLAVOR.equalsIgnoreCase("signet"))
+            NETWORK_PARAMETERS = SigNetParams.get();
+        else if (BuildConfig.FLAVOR.equalsIgnoreCase("mainnet"))
+            NETWORK_PARAMETERS = MainNetParams.get();
+        else
+            throw new IllegalStateException("unknown: " + BuildConfig.FLAVOR);
+    }
 
     /** Bitcoinj global context. */
     public static final Context CONTEXT = new Context(NETWORK_PARAMETERS);
@@ -71,8 +81,17 @@ public final class Constants {
     public static final boolean ENABLE_BROWSE = true;
 
     public final static class Files {
-        private static final String FILENAME_NETWORK_SUFFIX = NETWORK_PARAMETERS.getId()
-                .equals(BitcoinNetwork.ID_MAINNET) ? "" : "-testnet";
+        private static final String FILENAME_NETWORK_SUFFIX;
+        static {
+            if (NETWORK_PARAMETERS.getId().equals(BitcoinNetwork.ID_TESTNET))
+                FILENAME_NETWORK_SUFFIX = "-testnet";
+            else if (NETWORK_PARAMETERS.getId().equals(BitcoinNetwork.ID_SIGNET))
+                FILENAME_NETWORK_SUFFIX = "-signet";
+            else if (NETWORK_PARAMETERS.getId().equals(BitcoinNetwork.ID_MAINNET))
+                FILENAME_NETWORK_SUFFIX = "";
+            else
+                throw new IllegalStateException("unknown: " + NETWORK_PARAMETERS.getId());
+        }
 
         /** Filename of the wallet. */
         public static final String WALLET_FILENAME_PROTOBUF = "wallet-protobuf" + FILENAME_NETWORK_SUFFIX;
@@ -108,12 +127,23 @@ public final class Constants {
         public static final String ELECTRUM_SERVERS_ASSET = "electrum-servers.txt";
     }
 
+    private static final String URL_SUFFIX;
+    static {
+        if (NETWORK_PARAMETERS.getId().equals(BitcoinNetwork.ID_TESTNET))
+            URL_SUFFIX = "-test";
+        else if (NETWORK_PARAMETERS.getId().equals(BitcoinNetwork.ID_SIGNET))
+            URL_SUFFIX = "-signet";
+        else if (NETWORK_PARAMETERS.getId().equals(BitcoinNetwork.ID_MAINNET))
+            URL_SUFFIX = "";
+        else
+            throw new IllegalStateException("unknown: " + NETWORK_PARAMETERS.getId());
+    }
+
     /** URL to fetch version alerts from. */
-    public static final HttpUrl VERSION_URL = HttpUrl.parse("https://wallet.schildbach.de/version"
-            + (NETWORK_PARAMETERS.getId().equals(BitcoinNetwork.ID_MAINNET) ? "" : "-test"));
+    public static final HttpUrl VERSION_URL= HttpUrl.parse("https://wallet.schildbach.de/version" + URL_SUFFIX);
+
     /** URL to fetch dynamic fees from. */
-    public static final HttpUrl DYNAMIC_FEES_URL = HttpUrl.parse("https://wallet.schildbach.de/fees"
-            + (NETWORK_PARAMETERS.getId().equals(BitcoinNetwork.ID_MAINNET) ? "" : "-test"));
+    public static final HttpUrl DYNAMIC_FEES_URL = HttpUrl.parse("https://wallet.schildbach.de/fees" + URL_SUFFIX);
 
     /** MIME type used for transmitting single transactions. */
     public static final String MIMETYPE_TRANSACTION = "application/x-btctx";
@@ -209,10 +239,20 @@ public final class Constants {
     public static final int SCRYPT_ITERATIONS_TARGET_LOWRAM = 32768;
 
     /** Default ports for Electrum servers */
-    public static final int ELECTRUM_SERVER_DEFAULT_PORT_TCP = NETWORK_PARAMETERS.getId()
-            .equals(BitcoinNetwork.ID_MAINNET) ? 50001 : 51001;
-    public static final int ELECTRUM_SERVER_DEFAULT_PORT_TLS = NETWORK_PARAMETERS.getId()
-            .equals(BitcoinNetwork.ID_MAINNET) ? 50002 : 51002;
+    private static final int ELECTRUM_SERVER_DEFAULT_PORT_OFFSET;
+    static {
+        if (NETWORK_PARAMETERS.getId().equals(BitcoinNetwork.ID_TESTNET))
+            ELECTRUM_SERVER_DEFAULT_PORT_OFFSET = 1000;
+        else if (NETWORK_PARAMETERS.getId().equals(BitcoinNetwork.ID_SIGNET))
+            ELECTRUM_SERVER_DEFAULT_PORT_OFFSET = 3000;
+        else if (NETWORK_PARAMETERS.getId().equals(BitcoinNetwork.ID_MAINNET))
+            ELECTRUM_SERVER_DEFAULT_PORT_OFFSET = 0;
+        else
+            throw new IllegalStateException("unknown: " + NETWORK_PARAMETERS.getId());
+    }
+
+    public static final int ELECTRUM_SERVER_DEFAULT_PORT_TCP = 50001 + ELECTRUM_SERVER_DEFAULT_PORT_OFFSET;
+    public static final int ELECTRUM_SERVER_DEFAULT_PORT_TLS = 50002 + ELECTRUM_SERVER_DEFAULT_PORT_OFFSET;
 
     /** Shared HTTP client, can reuse connections */
     public static final OkHttpClient HTTP_CLIENT;

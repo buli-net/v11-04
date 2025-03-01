@@ -10,6 +10,7 @@ if (GradleVersion.current() < minGradleVersion || GradleVersion.current() >= max
 
 gradle.startParameter.excludedTaskNames << "lint"
 gradle.startParameter.excludedTaskNames << "lintVitalTestnetRelease"
+gradle.startParameter.excludedTaskNames << "lintVitalSignetRelease"
 gradle.startParameter.excludedTaskNames << "lintVitalMainnetRelease"
 
 include 'wallet'

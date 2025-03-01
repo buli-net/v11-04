@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bitcoin Wallet [signet]</string>
+    <string name="app_name_short">Signet</string>
+
+    <string-array name="preferences_block_explorer_values">
+        <item>https://mempool.space/signet/</item>
+        <item>https://mempool.emzy.de/signet/</item>
+    </string-array>
+    <string-array name="preferences_block_explorer_labels">
+        <item>mempool.space</item>
+        <item>mempool.emzy.de</item>
+    </string-array>
+</resources>
