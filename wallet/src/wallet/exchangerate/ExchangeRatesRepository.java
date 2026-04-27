@@ -22,9 +22,7 @@ import com.google.common.base.Stopwatch;
 import com.squareup.moshi.Moshi;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.ConnectionSpec;
 import okhttp3.Headers;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.slf4j.Logger;
@@ -36,7 +34,6 @@ import wallet.WalletApplication;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ExchangeRatesRepository {
@@ -98,9 +95,7 @@ public class ExchangeRatesRepository {
         headers.add("Accept", coinGecko.mediaType().toString());
         request.headers(headers.build());
 
-        final OkHttpClient.Builder httpClientBuilder = Constants.HTTP_CLIENT.newBuilder();
-        httpClientBuilder.connectionSpecs(Collections.singletonList(ConnectionSpec.RESTRICTED_TLS));
-        final Call call = httpClientBuilder.build().newCall(request.build());
+        final Call call = Constants.HTTP_CLIENT.newCall(request.build());
         call.enqueue(new Callback() {
             @Override
             public void onResponse(final Call call, final Response response) throws IOException {

@@ -34,10 +34,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.common.base.Splitter;
 import com.google.common.primitives.Ints;
 import okhttp3.Call;
-import okhttp3.ConnectionSpec;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.bitcoinj.base.BitcoinNetwork;
@@ -57,7 +55,6 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
@@ -123,9 +120,7 @@ public class AlertDialogsViewModel extends AndroidViewModel {
                     headers.add("User-Agent", userAgent);
                 request.headers(headers.build());
 
-                final OkHttpClient.Builder httpClientBuilder = Constants.HTTP_CLIENT.newBuilder();
-                httpClientBuilder.connectionSpecs(Collections.singletonList(ConnectionSpec.RESTRICTED_TLS));
-                final Call call = httpClientBuilder.build().newCall(request.build());
+                final Call call = Constants.HTTP_CLIENT.newCall(request.build());
 
                 final Response response = call.execute();
                 if (response.isSuccessful()) {

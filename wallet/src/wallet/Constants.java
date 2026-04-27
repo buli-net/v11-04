@@ -19,6 +19,7 @@ package wallet;
 
 import android.os.Build;
 import com.google.common.io.BaseEncoding;
+import okhttp3.ConnectionSpec;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -35,6 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 public final class Constants {
@@ -272,6 +274,7 @@ public final class Constants {
         final OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.followRedirects(false);
         httpClientBuilder.followSslRedirects(false);
+        httpClientBuilder.connectionSpecs(Collections.singletonList(ConnectionSpec.RESTRICTED_TLS));
         httpClientBuilder.connectTimeout(15, TimeUnit.SECONDS);
         httpClientBuilder.writeTimeout(15, TimeUnit.SECONDS);
         httpClientBuilder.readTimeout(15, TimeUnit.SECONDS);
