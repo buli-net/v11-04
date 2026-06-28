@@ -24,7 +24,7 @@ v11.04 mod by buli
 
 + Add bar sync block start app
 - wallet/src/wallet/ui/WalletActivity.java
-[ Add code line 76->84, add line 148->295 ]
+[ Add code line 76->84, add line 148->296 ]
 
 **------------**
 
