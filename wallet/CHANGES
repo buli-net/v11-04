@@ -22,6 +22,9 @@ v11.04 mod by buli
 + update email report: bitcoin.wallet.developers@gmail.com --> hvlrcb@gmail.com
 - wallet/src/wallet/Constants.java [ // line 180, add code line 181]
 
++ Add bar sync block start app
+- wallet/src/wallet/ui/WalletActivity.java
+[ Add code line 76->84, add line 148->295 ]
 
 **------------**
 
