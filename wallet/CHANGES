@@ -5,6 +5,8 @@ v11.04 mod by buli
 - Create file wallet/res/drawable/ic_info_white_24dp.xml
 - Create file wallet/src/wallet/ui/TransactionDetailsActivity.java
 - Create file wallet/res/layout/activity_transaction_details.xml
+- Create file wallet/res/values/colors_txdetails.xml
+- Create file wallet/res/values-night/colors_txdetails.xml
 
 - Add code file wallet/res/menu/wallet_transactions_context.xml [ add code line 11->16 ]
 - Add code file wallet/AndroidManifest.xml [ add code line 91-->95 ]
