@@ -14,9 +14,10 @@ import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.core.Transaction;
 import org.bitcoinj.core.TransactionConfidence;
 import org.bitcoinj.core.TransactionInput;
+import org.bitcoinj.core.TransactionOutPoint;
 import org.bitcoinj.core.TransactionOutput;
 import org.bitcoinj.script.Script;
-import org.bitcoinj.script.ScriptPattern;
+
 import org.bitcoinj.wallet.Wallet;
 
 import java.text.SimpleDateFormat;
@@ -26,8 +27,6 @@ import java.util.Locale;
 
 import wallet.R;
 import wallet.WalletApplication;
-
-import org.bitcoinj.core.TransactionOutPoint;
 
 public class TransactionDetailsActivity extends Activity {
     private TextView tvDirection, tvAmount, tvStatus, tvFee, tvTime, tvFrom, tvTo, tvTxid, tvHeight, tvMeta;
@@ -62,7 +61,7 @@ public class TransactionDetailsActivity extends Activity {
         boolean isSend = value.isNegative();
         Coin absValue = isSend ? value.negate() : value;
 
-        tvDirection.setText(isSend ? "Sent" : "Receive");
+        tvDirection.setText(isSend ? "Sent" : "Received");
         tvAmount.setText((isSend ? "-" : "+") + absValue.toPlainString() + " BTC");
         tvAmount.setTextColor(getResources().getColor(isSend ? R.color.tx_amount_sent : R.color.tx_amount_recv));
 
@@ -105,7 +104,9 @@ public class TransactionDetailsActivity extends Activity {
                     if (a != null) fromAddrs.add(a);
                 }
             } catch (Exception ignored) {}
-            if (fromAddrs.isEmpty()) {
+        }
+        if (fromAddrs.isEmpty()) {
+            for (TransactionInput in : tx.getInputs()) {
                 try { fromAddrs.add(in.getOutpoint().toString()); } catch (Exception ignored) {}
             }
         }
@@ -134,12 +135,9 @@ public class TransactionDetailsActivity extends Activity {
 
     private String getAddressFromScript(Script script, NetworkParameters params) {
         try {
-            if (ScriptPattern.isP2PKH(script)) return ScriptPattern.extractHashFromP2PKH(script).toString();
-            if (ScriptPattern.isP2WPKH(script)) return ScriptPattern.extractHashFromP2WH(script).toString();
-            if (ScriptPattern.isP2SH(script)) return ScriptPattern.extractHashFromP2SH(script).toString();
             return script.getToAddress(params).toString();
         } catch (Exception e) {
-            return null;
+            return script.toString();
         }
     }
 
