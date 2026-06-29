@@ -17,12 +17,10 @@ import org.bitcoinj.core.TransactionInput;
 import org.bitcoinj.core.TransactionOutPoint;
 import org.bitcoinj.core.TransactionOutput;
 import org.bitcoinj.script.Script;
-
 import org.bitcoinj.wallet.Wallet;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.Locale;
 
 import wallet.R;
@@ -94,39 +92,28 @@ public class TransactionDetailsActivity extends Activity {
         }
         tvMeta.setText(size + " bytes · " + weight + " wu" + feeRate + (rbf ? " · RBF" : ""));
 
-        LinkedHashSet<String> fromAddrs = new LinkedHashSet<>();
-        for (TransactionInput in : tx.getInputs()) {
-            try {
-                TransactionOutPoint outpoint = in.getOutpoint();
-                if (outpoint != null && outpoint.getConnectedOutput() != null) {
-                    Script script = outpoint.getConnectedOutput().getScriptPubKey();
-                    String a = getAddressFromScript(script, params);
-                    if (a != null) fromAddrs.add(a);
-                }
-            } catch (Exception ignored) {}
-        }
-        if (fromAddrs.isEmpty()) {
-            for (TransactionInput in : tx.getInputs()) {
-                try { fromAddrs.add(in.getOutpoint().toString()); } catch (Exception ignored) {}
-            }
+        // From / To : 1 địa chỉ thực, lọc isMine
+        String fromAddr = null;
+        String toAddr = null;
+
+        if (isSend) {
+            toAddr = getOutputAddress(tx, params, wallet, false);
+            fromAddr = getInputAddress(tx, params, wallet, true);
+        } else {
+            fromAddr = getInputAddress(tx, params, wallet, false);
+            toAddr = getOutputAddress(tx, params, wallet, true);
         }
 
-        LinkedHashSet<String> toAddrs = new LinkedHashSet<>();
-        for (TransactionOutput out : tx.getOutputs()) {
-            try {
-                String a = getAddressFromScript(out.getScriptPubKey(), params);
-                if (a != null) toAddrs.add(a + " · " + out.getValue().toPlainString() + " BTC");
-                else toAddrs.add(out.getScriptPubKey().toString() + " · " + out.getValue().toPlainString() + " BTC");
-            } catch (Exception ignored) {}
-        }
+        if (fromAddr == null) fromAddr = getInputAddress(tx, params, wallet, null);
+        if (toAddr == null) toAddr = getOutputAddress(tx, params, wallet, null);
 
-        String fromText = fromAddrs.isEmpty() ? "coinbase" : String.join("\n", fromAddrs);
-        String toText = String.join("\n", toAddrs);
+        if (fromAddr == null) fromAddr = "—";
+        if (toAddr == null) toAddr = "—";
 
-        tvFrom.setText(fromText);
-        tvTo.setText(toText);
-        copyOnClick(tvFrom, fromText);
-        copyOnClick(tvTo, toText);
+        tvFrom.setText(fromAddr);
+        tvTo.setText(toAddr);
+        copyOnClick(tvFrom, fromAddr);
+        copyOnClick(tvTo, toAddr);
 
         String hash = tx.getTxId().toString();
         tvTxid.setText(hash);
@@ -137,8 +124,40 @@ public class TransactionDetailsActivity extends Activity {
         try {
             return script.getToAddress(params).toString();
         } catch (Exception e) {
-            return script.toString();
+            return null;
         }
+    }
+
+    private String getInputAddress(Transaction tx, NetworkParameters params, Wallet wallet, Boolean mineOnly) {
+        for (TransactionInput in : tx.getInputs()) {
+            try {
+                TransactionOutPoint outpoint = in.getOutpoint();
+                if (outpoint != null && outpoint.getConnectedOutput() != null) {
+                    TransactionOutput connected = outpoint.getConnectedOutput();
+                    if (mineOnly != null) {
+                        boolean isMine = connected.isMine(wallet);
+                        if (isMine != mineOnly) continue;
+                    }
+                    String a = getAddressFromScript(connected.getScriptPubKey(), params);
+                    if (a != null) return a;
+                }
+            } catch (Exception ignored) {}
+        }
+        return null;
+    }
+
+    private String getOutputAddress(Transaction tx, NetworkParameters params, Wallet wallet, Boolean mineOnly) {
+        for (TransactionOutput out : tx.getOutputs()) {
+            try {
+                if (mineOnly != null) {
+                    boolean isMine = out.isMine(wallet);
+                    if (isMine != mineOnly) continue;
+                }
+                String a = getAddressFromScript(out.getScriptPubKey(), params);
+                if (a != null) return a;
+            } catch (Exception ignored) {}
+        }
+        return null;
     }
 
     private void copyOnClick(TextView tv, String text) {
