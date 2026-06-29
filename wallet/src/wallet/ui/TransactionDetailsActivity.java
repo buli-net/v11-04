@@ -1,12 +1,11 @@
 package wallet.ui;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,125 +34,124 @@ public class TransactionDetailsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_transaction_details);
+
+        View btnBack = findViewById(R.id.btn_back);
+        if (btnBack != null) btnBack.setOnClickListener(v -> finish());
+
+        tvDirection = findViewById(R.id.tv_direction);
+        tvAmount = findViewById(R.id.tv_amount);
+        tvStatus = findViewById(R.id.tv_status);
+        tvFee = findViewById(R.id.tv_fee);
+        tvTime = findViewById(R.id.tv_time);
+        tvFrom = findViewById(R.id.tv_from);
+        tvTo = findViewById(R.id.tv_to);
+        tvTxid = findViewById(R.id.tv_txid);
+        tvHeight = findViewById(R.id.tv_height);
+        tvMeta = findViewById(R.id.tv_meta);
+
+        String txidStr = getIntent().getStringExtra("txid");
+        if (txidStr == null) { Toast.makeText(this, "Missing txid", Toast.LENGTH_SHORT).show(); finish(); return; }
+
+        WalletApplication app = (WalletApplication) getApplication();
+        Wallet wallet = app.getWallet();
+        if (wallet == null) { Toast.makeText(this, "Wallet not ready", Toast.LENGTH_SHORT).show(); finish(); return; }
+        NetworkParameters params = wallet.getNetworkParameters();
+
+        Transaction tx;
         try {
-            setContentView(R.layout.activity_transaction_details);
-            getWindow().setBackgroundDrawableResource(R.color.tx_page_bg);
+            tx = wallet.getTransaction(Sha256Hash.wrap(txidStr));
+        } catch (Exception e) { tx = null; }
+        if (tx == null) { Toast.makeText(this, "Transaction not found", Toast.LENGTH_SHORT).show(); finish(); return; }
 
-            ActionBar ab = getActionBar();
-            if (ab != null) {
-                ab.setDisplayHomeAsUpEnabled(true);
-                ab.setTitle("Transaction Details");
-            }
+        // Amount
+        Coin value = Coin.ZERO;
+        try { Coin v = tx.getValue(wallet); if (v != null) value = v; } catch (Exception ignored) {}
+        boolean isSend = value.isNegative();
+        Coin absValue = isSend ? value.negate() : value;
 
-            tvDirection = findViewById(R.id.tv_direction);
-            tvAmount = findViewById(R.id.tv_amount);
-            tvStatus = findViewById(R.id.tv_status);
-            tvFee = findViewById(R.id.tv_fee);
-            tvTime = findViewById(R.id.tv_time);
-            tvFrom = findViewById(R.id.tv_from);
-            tvTo = findViewById(R.id.tv_to);
-            tvTxid = findViewById(R.id.tv_txid);
-            tvHeight = findViewById(R.id.tv_height);
-            tvMeta = findViewById(R.id.tv_meta);
-
-            String txidStr = getIntent().getStringExtra("txid");
-            if (txidStr == null) { finish(); return; }
-
-            WalletApplication app = (WalletApplication) getApplication();
-            Wallet wallet = app.getWallet();
-            if (wallet == null) { finish(); return; }
-            NetworkParameters params = wallet.getNetworkParameters();
-
-            Transaction tx = wallet.getTransaction(Sha256Hash.wrap(txidStr));
-            if (tx == null) { finish(); return; }
-
-            Coin value = null;
-            try { value = tx.getValue(wallet); } catch (Exception ignored) {}
-            if (value == null) value = Coin.ZERO;
-            boolean isSend = value.isNegative();
-            Coin absValue = isSend ? value.negate() : value;
-
-            tvDirection.setText(isSend ? "Sent" : "Received");
-            tvAmount.setText((isSend ? "-" : "+") + absValue.toPlainString() + " BTC");
+        tvDirection.setText(isSend ? "Sent" : "Received");
+        tvAmount.setText((isSend ? "-" : "+") + absValue.toPlainString() + " BTC");
+        try {
             tvAmount.setTextColor(getResources().getColor(isSend ? R.color.tx_amount_sent : R.color.tx_amount_recv));
+        } catch (Exception ignored) {}
 
-            TransactionConfidence confidence = tx.getConfidence();
-            int depth = confidence != null ? confidence.getDepthInBlocks() : 0;
-            boolean confirmed = confidence != null && confidence.getConfidenceType() == TransactionConfidence.ConfidenceType.BUILDING;
-            tvStatus.setText(confirmed ? "Confirmed" : "Pending");
+        // Confidence
+        TransactionConfidence confidence = tx.getConfidence();
+        int depth = 0;
+        boolean confirmed = false;
+        int height = 0;
+        if (confidence != null) {
+            try { depth = confidence.getDepthInBlocks(); } catch (Exception ignored) {}
+            try { confirmed = confidence.getConfidenceType() == TransactionConfidence.ConfidenceType.BUILDING; } catch (Exception ignored) {}
+            try { height = confidence.getAppearedAtChainHeight(); } catch (Exception ignored) {}
+        }
+        tvStatus.setText(confirmed ? "Confirmed" : "Pending");
+        try {
             tvStatus.setTextColor(getResources().getColor(confirmed ? R.color.tx_status_ok : R.color.tx_status_pending));
+        } catch (Exception ignored) {}
 
-            Coin fee = null;
-            try { fee = tx.getFee(); } catch (Exception ignored) {}
-            tvFee.setText(fee != null ? fee.toPlainString() + " BTC" : "—");
+        // Fee
+        Coin fee = null;
+        try { fee = tx.getFee(); } catch (Exception ignored) {}
+        tvFee.setText(fee != null ? fee.toPlainString() + " BTC" : "—");
 
-            Date updateTime = tx.getUpdateTime();
-            if (updateTime != null) {
-                tvTime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(updateTime));
-            } else {
-                tvTime.setText("—");
-            }
+        // Time
+        Date updateTime = null;
+        try { updateTime = tx.getUpdateTime(); } catch (Exception ignored) {}
+        if (updateTime != null) {
+            tvTime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(updateTime));
+        } else {
+            tvTime.setText("—");
+        }
 
-            int height = confidence != null ? confidence.getAppearedAtChainHeight() : 0;
-            String confStr = (depth > 0 ? depth + " confirmations" : "unconfirmed") +
-                    (height > 0 ? " · height " + height : "");
-            tvHeight.setText(confStr);
+        // Confirmations
+        String confStr = (depth > 0 ? depth + " confirmations" : "unconfirmed") +
+                (height > 0 ? " · height " + height : "");
+        tvHeight.setText(confStr);
 
-            int size = 0, weight = 0;
-            boolean rbf = false;
-            try { size = tx.getMessageSize(); } catch (Exception ignored) {}
-            try { weight = tx.getWeight(); } catch (Exception ignored) {}
-            try { rbf = tx.isOptInFullRBF(); } catch (Exception ignored) {}
-            
-            String feeRate = "";
-            if (fee != null && weight > 0) {
-                try {
-                    long satPerVbyte = fee.getValue() * 4 / weight;
-                    feeRate = " · " + satPerVbyte + " sat/vB";
-                } catch (Exception ignored) {}
-            }
-            tvMeta.setText(size + " bytes · " + weight + " wu" + feeRate + (rbf ? " · RBF" : ""));
-
-            // From / To : 1 địa chỉ thực, có fallback cho tx chưa broadcast
-            String fromAddr = null;
-            String toAddr = null;
+        // Size / weight
+        int size = 0, weight = 0;
+        boolean rbf = false;
+        try { size = tx.getMessageSize(); } catch (Exception ignored) {}
+        try { weight = tx.getWeight(); } catch (Exception ignored) {}
+        try { rbf = tx.isOptInFullRBF(); } catch (Exception ignored) {}
+        
+        String feeRate = "";
+        if (fee != null && weight > 0) {
             try {
-                if (isSend) {
-                    toAddr = getOutputAddress(tx, params, wallet, false);
-                    fromAddr = getInputAddress(tx, params, wallet, true);
-                } else {
-                    fromAddr = getInputAddress(tx, params, wallet, false);
-                    toAddr = getOutputAddress(tx, params, wallet, true);
-                }
-                if (fromAddr == null) fromAddr = getInputAddress(tx, params, wallet, null);
-                if (toAddr == null) toAddr = getOutputAddress(tx, params, wallet, null);
+                long satPerVbyte = fee.getValue() * 4 / weight;
+                feeRate = " · " + satPerVbyte + " sat/vB";
             } catch (Exception ignored) {}
-
-            if (fromAddr == null) fromAddr = "—";
-            if (toAddr == null) toAddr = "—";
-
-            tvFrom.setText(fromAddr);
-            tvTo.setText(toAddr);
-            copyOnClick(tvFrom, fromAddr);
-            copyOnClick(tvTo, toAddr);
-
-            String hash = tx.getTxId().toString();
-            tvTxid.setText(hash);
-            copyOnClick(tvTxid, hash);
-
-        } catch (Exception e) {
-            // crash-safe: không văng app nữa
-            finish();
         }
-    }
+        tvMeta.setText(size + " bytes · " + weight + " wu" + feeRate + (rbf ? " · RBF" : ""));
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        // From / To
+        String fromAddr = null;
+        String toAddr = null;
+        try {
+            if (isSend) {
+                toAddr = getOutputAddress(tx, params, wallet, false);
+                fromAddr = getInputAddress(tx, params, wallet, true);
+            } else {
+                fromAddr = getInputAddress(tx, params, wallet, false);
+                toAddr = getOutputAddress(tx, params, wallet, true);
+            }
+            if (fromAddr == null) fromAddr = getInputAddress(tx, params, wallet, null);
+            if (toAddr == null) toAddr = getOutputAddress(tx, params, wallet, null);
+        } catch (Exception ignored) {}
+
+        if (fromAddr == null) fromAddr = "—";
+        if (toAddr == null) toAddr = "—";
+
+        tvFrom.setText(fromAddr);
+        tvTo.setText(toAddr);
+        copyOnClick(tvFrom, fromAddr);
+        copyOnClick(tvTo, toAddr);
+
+        String hash = tx.getTxId().toString();
+        tvTxid.setText(hash);
+        copyOnClick(tvTxid, hash);
     }
 
     private String getAddressFromScript(Script script, NetworkParameters params) {
@@ -182,7 +180,6 @@ public class TransactionDetailsActivity extends Activity {
                     String a = getAddressFromScript(connected.getScriptPubKey(), params);
                     if (a != null) return a;
                 }
-                // fallback: thử parse địa chỉ từ scriptSig nếu chưa connect
                 if (mineOnly == null) {
                     try {
                         String a = getAddressFromScript(in.getScriptSig(), params);
