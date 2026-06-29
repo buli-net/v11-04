@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,10 @@ public class TransactionDetailsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_details);
+
+        // back arrow
+        View btnBack = findViewById(R.id.btn_back);
+        if (btnBack != null) btnBack.setOnClickListener(v -> finish());
 
         tvDirection = findViewById(R.id.tv_direction);
         tvAmount = findViewById(R.id.tv_amount);
@@ -92,7 +97,7 @@ public class TransactionDetailsActivity extends Activity {
         }
         tvMeta.setText(size + " bytes · " + weight + " wu" + feeRate + (rbf ? " · RBF" : ""));
 
-        // From / To : 1 địa chỉ thực, lọc isMine
+        // From / To : 1 địa chỉ thực
         String fromAddr = null;
         String toAddr = null;
 
