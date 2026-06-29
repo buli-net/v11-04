@@ -1,90 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="?attr/colorBackground"
-    android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="12dp"
-        app:cardBackgroundColor="?attr/colorSurface">
+        android:layout_height="wrap_content">
 
-        <LinearLayout android:orientation="vertical"
-            android:padding="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <TextView android:id="@+id/tv_direction"
+            style="?android:attr/textAppearanceSmall"
+            android:textColor="?android:attr/textColorSecondary"
+            android:layout_width="wrap_content" android:layout_height="wrap_content" />
 
-            <TextView android:id="@+id/tv_direction"
-                style="?android:attr/textAppearanceSmall"
-                android:textColor="?android:attr/textColorSecondary"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/tv_amount"
-                style="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
-                android:textColor="?android:attr/textColorPrimary"
-                android:layout_marginTop="4dp"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/tv_status"
-                android:layout_marginTop="8dp"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/tv_amount"
+            style="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorPrimary"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content" />
 
-            <View android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="?android:attr/listDivider"
-                android:layout_width="match_parent"/>
+        <TextView android:id="@+id/tv_status"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content" />
 
-            <TextView android:text="Fee" style="?android:attr/textAppearanceSmall"
-                android:textColor="?android:attr/textColorSecondary"
-                android:layout_marginTop="16dp"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/tv_fee"
-                android:textColor="?android:attr/textColorPrimary"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <View android:layout_width="match_parent" android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="?android:attr/listDivider" />
 
-            <TextView android:text="Time" style="?android:attr/textAppearanceSmall"
-                android:textColor="?android:attr/textColorSecondary"
-                android:layout_marginTop="12dp"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/tv_time"
-                android:textColor="?android:attr/textColorPrimary"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:text="Fee"
+            style="?android:attr/textAppearanceSmall"
+            android:textColor="?android:attr/textColorSecondary"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/tv_fee"
+            android:textColor="?android:attr/textColorPrimary"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
-            <TextView android:text="From" style="?android:attr/textAppearanceSmall"
-                android:textColor="?android:attr/textColorSecondary"
-                android:layout_marginTop="12dp"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/tv_from"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textIsSelectable="true"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <TextView android:text="Time"
+            style="?android:attr/textAppearanceSmall"
+            android:textColor="?android:attr/textColorSecondary"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/tv_time"
+            android:textColor="?android:attr/textColorPrimary"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
-            <TextView android:text="To" style="?android:attr/textAppearanceSmall"
-                android:textColor="?android:attr/textColorSecondary"
-                android:layout_marginTop="12dp"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/tv_to"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textIsSelectable="true"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <TextView android:text="From"
+            style="?android:attr/textAppearanceSmall"
+            android:textColor="?android:attr/textColorSecondary"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/tv_from"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textIsSelectable="true"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
-            <TextView android:text="TxID" style="?android:attr/textAppearanceSmall"
-                android:textColor="?android:attr/textColorSecondary"
-                android:layout_marginTop="12dp"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/tv_txid"
-                android:textColor="?attr/colorAccent"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:text="To"
+            style="?android:attr/textAppearanceSmall"
+            android:textColor="?android:attr/textColorSecondary"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/tv_to"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textIsSelectable="true"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
-            <TextView android:text="Block height" style="?android:attr/textAppearanceSmall"
-                android:textColor="?android:attr/textColorSecondary"
-                android:layout_marginTop="12dp"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/tv_height"
-                android:textColor="?android:attr/textColorPrimary"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+        <TextView android:text="TxID"
+            style="?android:attr/textAppearanceSmall"
+            android:textColor="?android:attr/textColorSecondary"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/tv_txid"
+            android:textColor="?android:attr/textColorPrimary"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+        <TextView android:text="Block height"
+            style="?android:attr/textAppearanceSmall"
+            android:textColor="?android:attr/textColorSecondary"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/tv_height"
+            android:textColor="?android:attr/textColorPrimary"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    </LinearLayout>
 </ScrollView>
