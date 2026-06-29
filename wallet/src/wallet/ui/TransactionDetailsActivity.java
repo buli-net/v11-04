@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+
 import wallet.Constants;
 import wallet.R;
 import wallet.WalletApplication;
@@ -50,8 +52,15 @@ public class TransactionDetailsActivity extends Activity {
         String txHash = getIntent().getStringExtra(EXTRA_TX_HASH);
         if (txHash == null) { finish(); return; }
 
-        tx = wallet.getTransaction(Sha256Hash.wrap(txHash));
-        if (tx == null) { finish(); return; }
+        try {
+            tx = wallet.getTransaction(Sha256Hash.wrap(txHash));
+        } catch (Exception ignored) {}
+
+        if (tx == null) {
+            Toast.makeText(this, "Tx not found", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         bindTransaction(tx);
 
@@ -65,7 +74,6 @@ public class TransactionDetailsActivity extends Activity {
     }
 
     private void bindTransaction(Transaction tx) {
-        // Amount
         Coin value = Coin.ZERO;
         try { value = tx.getValue(wallet); } catch (Exception ignored) {}
         boolean isSent = value.signum() < 0;
@@ -74,42 +82,35 @@ public class TransactionDetailsActivity extends Activity {
         TextView dirView = findViewById(R.id.tx_direction_label);
         dirView.setText(isSent ? "Sent" : "Received");
         amountView.setText(value.toFriendlyString());
-        amountView.setTextColor(getResources().getColor(
-                isSent ? R.color.tx_amount_sent : R.color.tx_amount_recv, null));
+        amountView.setTextColor(ContextCompat.getColor(this,
+                isSent ? R.color.tx_amount_sent : R.color.tx_amount_recv));
 
-        // Status
         int confs = 0;
-        try { confs = tx.getConfidence().getDepthInBlocks(); } catch (Exception ignored) {}
+        try { if (tx.getConfidence() != null) confs = tx.getConfidence().getDepthInBlocks(); } catch (Exception ignored) {}
         TextView statusView = findViewById(R.id.tx_status);
         if (confs >= 6) {
             statusView.setText("Confirmed");
-            statusView.setTextColor(getResources().getColor(R.color.tx_status_ok, null));
+            statusView.setTextColor(ContextCompat.getColor(this, R.color.tx_status_ok));
         } else if (confs > 0) {
             statusView.setText("Building");
-            statusView.setTextColor(getResources().getColor(R.color.tx_status_building, null));
+            statusView.setTextColor(ContextCompat.getColor(this, R.color.tx_status_building));
         } else {
             statusView.setText("Pending");
-            statusView.setTextColor(getResources().getColor(R.color.tx_status_pending, null));
+            statusView.setTextColor(ContextCompat.getColor(this, R.color.tx_status_pending));
         }
 
-        // Fee
         Coin fee = null;
         try { fee = tx.getFee(); } catch (Exception ignored) {}
         ((TextView)findViewById(R.id.tx_fee)).setText(fee != null ? fee.toFriendlyString() : "—");
 
-        // Size / Weight
         int size = tx.getMessageSize();
         int weight = tx.getWeight();
         long vsize = (weight + 3) / 4;
-        long feePerVb = fee != null && vsize > 0 ? fee.value / vsize : 0;
+        long feePerVb = fee != null && vsize > 0 ? fee.toSat() / vsize : 0;
         ((TextView)findViewById(R.id.tx_size)).setText(size + " bytes · " + weight + " wu · " + feePerVb + " sat/vB");
 
-        // Confirmations
-        int height = 0;
-        try { height = tx.getConfidence().getAppearedAtChainHeight(); } catch (Exception ignored) {}
-        ((TextView)findViewById(R.id.tx_confirmations)).setText(confs + " confirmations" + (height > 0 ? " · height " + height : ""));
+        ((TextView)findViewById(R.id.tx_confirmations)).setText(confs + " confirmations");
 
-        // Time
         try {
             java.util.Date time = tx.getUpdateTime();
             if (time != null) {
@@ -130,7 +131,6 @@ public class TransactionDetailsActivity extends Activity {
         fromContainer.removeAllViews();
         toContainer.removeAllViews();
 
-        // Inputs
         Coin totalIn = Coin.ZERO;
         int inCount = tx.getInputs().size();
         for (TransactionInput input : tx.getInputs()) {
@@ -141,11 +141,8 @@ public class TransactionDetailsActivity extends Activity {
                 TransactionOutput c = input.getConnectedOutput();
                 if (c != null) {
                     value = c.getValue();
-                    try {
-                        addr = c.getScriptPubKey().getToAddress(Constants.NETWORK_PARAMETERS).toString();
-                    } catch (Exception e1) {
-                        addr = c.getScriptPubKey().getToAddress(org.bitcoinj.params.TestNet3Params.get()).toString();
-                    }
+                    try { addr = c.getScriptPubKey().getToAddress(Constants.NETWORK_PARAMETERS).toString(); }
+                    catch (Exception e1) { addr = c.getScriptPubKey().getToAddress(org.bitcoinj.params.TestNet3Params.get()).toString(); }
                     type = getScriptType(addr);
                 }
             } catch (Exception ignored) {}
@@ -154,30 +151,21 @@ public class TransactionDetailsActivity extends Activity {
         }
         fromSummary.setText("Total: " + totalIn.toFriendlyString() + " from " + inCount);
 
-        // Outputs
         Coin totalOut = Coin.ZERO;
         int outCount = tx.getOutputs().size();
         for (TransactionOutput out : tx.getOutputs()) {
             Coin value = out.getValue();
             if (value != null) totalOut = totalOut.add(value);
-
             String addr = "unknown";
             String type = "nonstandard";
             try {
                 if (ScriptPattern.isOpReturn(out.getScriptPubKey())) {
-                    type = "OP_RETURN";
-                    addr = "OP_RETURN";
+                    type = "OP_RETURN"; addr = "OP_RETURN";
                 } else {
                     Address a = null;
-                    try {
-                        a = out.getScriptPubKey().getToAddress(Constants.NETWORK_PARAMETERS);
-                    } catch (Exception e1) {
-                        a = out.getScriptPubKey().getToAddress(org.bitcoinj.params.TestNet3Params.get());
-                    }
-                    if (a != null) {
-                        addr = a.toString();
-                        type = getScriptType(addr);
-                    }
+                    try { a = out.getScriptPubKey().getToAddress(Constants.NETWORK_PARAMETERS); }
+                    catch (Exception e1) { a = out.getScriptPubKey().getToAddress(org.bitcoinj.params.TestNet3Params.get()); }
+                    if (a != null) { addr = a.toString(); type = getScriptType(addr); }
                 }
             } catch (Exception ignored) {}
             addIoRow(toContainer, addr, type, value);
@@ -189,11 +177,10 @@ public class TransactionDetailsActivity extends Activity {
         TextView tv = new TextView(this);
         String valStr = value != null ? value.toFriendlyString() : "? BTC";
         tv.setText(address + " (" + type + ") - " + valStr);
-        tv.setTextColor(getResources().getColor(R.color.tx_text_primary, null));
+        tv.setTextColor(ContextCompat.getColor(this, R.color.tx_text_primary));
         tv.setTextSize(13);
         tv.setPadding(0, 12, 0, 12);
-        container.addView(tv, new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        container.addView(tv, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
     private String getScriptType(String addr) {
@@ -207,10 +194,7 @@ public class TransactionDetailsActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
+        if (item.getItemId() == android.R.id.home) { finish(); return true; }
         return super.onOptionsItemSelected(item);
     }
 }
