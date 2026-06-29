@@ -315,7 +315,7 @@ public class WalletTransactionsFragment extends Fragment implements Transactions
     intent.putExtra("txid", transactionId.toString());
     startActivity(intent);
     return true;
-}
+
                 //end
 
                 
