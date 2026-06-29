@@ -1,5 +1,6 @@
-package de.schildbach.wallet.ui;
+package wallet.ui;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -10,28 +11,27 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import wallet.Constants;
+import wallet.R;
+import wallet.WalletApplication;
 
-import de.schildbach.wallet.Constants;
-import de.schildbach.wallet.WalletApplication;
-import de.schildbach.wallet.R;
-
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.ScriptException;
+import org.bitcoinj.base.Coin;
+import org.bitcoinj.base.Sha256Hash;
+import org.bitcoinj.base.Address;
 import org.bitcoinj.core.Transaction;
 import org.bitcoinj.core.TransactionInput;
 import org.bitcoinj.core.TransactionOutput;
 import org.bitcoinj.script.Script;
 import org.bitcoinj.script.ScriptPattern;
+import org.bitcoinj.wallet.Wallet;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
-public class TransactionDetailsActivity extends AppCompatActivity {
+public class TransactionDetailsActivity extends Activity {
 
     public static final String EXTRA_TX_HASH = "transaction_hash";
+    private Wallet wallet;
     private Transaction tx;
 
     @Override
@@ -39,16 +39,18 @@ public class TransactionDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_details);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Transaction Details");
+        if (getActionBar() != null) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+            getActionBar().setTitle("Transaction Details");
         }
+
+        WalletApplication application = (WalletApplication) getApplication();
+        wallet = application.getWallet();
 
         String txHash = getIntent().getStringExtra(EXTRA_TX_HASH);
         if (txHash == null) { finish(); return; }
 
-        WalletApplication app = (WalletApplication) getApplication();
-        tx = app.getWallet().getTransaction(org.bitcoinj.core.Sha256Hash.wrap(txHash));
+        tx = wallet.getTransaction(Sha256Hash.wrap(txHash));
         if (tx == null) { finish(); return; }
 
         bindTransaction(tx);
@@ -64,49 +66,57 @@ public class TransactionDetailsActivity extends AppCompatActivity {
 
     private void bindTransaction(Transaction tx) {
         // Amount
-        Coin value = tx.getValue(((WalletApplication)getApplication()).getWallet());
+        Coin value = Coin.ZERO;
+        try { value = tx.getValue(wallet); } catch (Exception ignored) {}
+        boolean isSent = value.signum() < 0;
+
         TextView amountView = findViewById(R.id.tx_amount);
         TextView dirView = findViewById(R.id.tx_direction_label);
-        boolean isSent = value.signum() < 0;
         dirView.setText(isSent ? "Sent" : "Received");
-        amountView.setText(value.toPlainString() + " BTC");
-        amountView.setTextColor(ContextCompat.getColor(this,
-                isSent ? R.color.tx_amount_sent : R.color.tx_amount_recv));
+        amountView.setText(value.toFriendlyString());
+        amountView.setTextColor(getResources().getColor(
+                isSent ? R.color.tx_amount_sent : R.color.tx_amount_recv, null));
 
         // Status
+        int confs = 0;
+        try { confs = tx.getConfidence().getDepthInBlocks(); } catch (Exception ignored) {}
         TextView statusView = findViewById(R.id.tx_status);
-        int depth = 0;
-        try { depth = tx.getConfidence().getDepthInBlocks(); } catch (Exception ignored) {}
-        if (depth >= 6) {
+        if (confs >= 6) {
             statusView.setText("Confirmed");
-            statusView.setTextColor(ContextCompat.getColor(this, R.color.tx_status_ok));
-        } else if (depth > 0) {
+            statusView.setTextColor(getResources().getColor(R.color.tx_status_ok, null));
+        } else if (confs > 0) {
             statusView.setText("Building");
-            statusView.setTextColor(ContextCompat.getColor(this, R.color.tx_status_building));
+            statusView.setTextColor(getResources().getColor(R.color.tx_status_building, null));
         } else {
             statusView.setText("Pending");
-            statusView.setTextColor(ContextCompat.getColor(this, R.color.tx_status_pending));
+            statusView.setTextColor(getResources().getColor(R.color.tx_status_pending, null));
         }
 
         // Fee
-        Coin fee = tx.getFee();
-        ((TextView)findViewById(R.id.tx_fee)).setText(fee != null ? fee.toPlainString() + " BTC" : "—");
+        Coin fee = null;
+        try { fee = tx.getFee(); } catch (Exception ignored) {}
+        ((TextView)findViewById(R.id.tx_fee)).setText(fee != null ? fee.toFriendlyString() : "—");
 
         // Size / Weight
         int size = tx.getMessageSize();
         int weight = tx.getWeight();
-        long feePerVb = fee != null ? fee.value / ((weight + 3) / 4) : 0;
+        long vsize = (weight + 3) / 4;
+        long feePerVb = fee != null && vsize > 0 ? fee.value / vsize : 0;
         ((TextView)findViewById(R.id.tx_size)).setText(size + " bytes · " + weight + " wu · " + feePerVb + " sat/vB");
 
         // Confirmations
-        ((TextView)findViewById(R.id.tx_confirmations)).setText(depth + " confirmations");
+        int height = 0;
+        try { height = tx.getConfidence().getAppearedAtChainHeight(); } catch (Exception ignored) {}
+        ((TextView)findViewById(R.id.tx_confirmations)).setText(confs + " confirmations" + (height > 0 ? " · height " + height : ""));
 
         // Time
-        Date time = tx.getUpdateTime();
-        if (time != null) {
-            String s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(time);
-            ((TextView)findViewById(R.id.tx_time)).setText(s);
-        }
+        try {
+            java.util.Date time = tx.getUpdateTime();
+            if (time != null) {
+                String s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(time);
+                ((TextView)findViewById(R.id.tx_time)).setText(s);
+            }
+        } catch (Exception ignored) {}
 
         renderInputsOutputs(tx);
     }
@@ -124,63 +134,75 @@ public class TransactionDetailsActivity extends AppCompatActivity {
         Coin totalIn = Coin.ZERO;
         int inCount = tx.getInputs().size();
         for (TransactionInput input : tx.getInputs()) {
-            Coin value = input.getValue();
-            if (value == null && input.getConnectedOutput() != null)
-                value = input.getConnectedOutput().getValue();
-            if (value != null) totalIn = totalIn.add(value);
-
-            String address = "unknown";
-            String type = "";
+            Coin value = null;
+            String addr = "unknown";
+            String type = "nonstandard";
             try {
-                if (input.getConnectedOutput() != null) {
-                    Script script = input.getConnectedOutput().getScriptPubKey();
-                    address = script.getToAddress(Constants.NETWORK_PARAMETERS).toString();
-                    type = getScriptType(script);
+                TransactionOutput c = input.getConnectedOutput();
+                if (c != null) {
+                    value = c.getValue();
+                    try {
+                        addr = c.getScriptPubKey().getToAddress(Constants.NETWORK_PARAMETERS).toString();
+                    } catch (Exception e1) {
+                        addr = c.getScriptPubKey().getToAddress(org.bitcoinj.params.TestNet3Params.get()).toString();
+                    }
+                    type = getScriptType(addr);
                 }
-            } catch (ScriptException ignored) {}
-
-            addIoRow(fromContainer, address, type, value);
+            } catch (Exception ignored) {}
+            if (value != null) totalIn = totalIn.add(value);
+            addIoRow(fromContainer, addr, type, value);
         }
-        fromSummary.setText("Total: " + totalIn.toPlainString() + " BTC from " + inCount);
+        fromSummary.setText("Total: " + totalIn.toFriendlyString() + " from " + inCount);
 
         // Outputs
         Coin totalOut = Coin.ZERO;
         int outCount = tx.getOutputs().size();
         for (TransactionOutput out : tx.getOutputs()) {
             Coin value = out.getValue();
-            totalOut = totalOut.add(value);
+            if (value != null) totalOut = totalOut.add(value);
 
-            String address = "unknown";
-            String type = "";
+            String addr = "unknown";
+            String type = "nonstandard";
             try {
-                Script script = out.getScriptPubKey();
-                address = script.getToAddress(Constants.NETWORK_PARAMETERS).toString();
-                type = getScriptType(script);
-            } catch (ScriptException ignored) {}
-
-            addIoRow(toContainer, address, type, value);
+                if (ScriptPattern.isOpReturn(out.getScriptPubKey())) {
+                    type = "OP_RETURN";
+                    addr = "OP_RETURN";
+                } else {
+                    Address a = null;
+                    try {
+                        a = out.getScriptPubKey().getToAddress(Constants.NETWORK_PARAMETERS);
+                    } catch (Exception e1) {
+                        a = out.getScriptPubKey().getToAddress(org.bitcoinj.params.TestNet3Params.get());
+                    }
+                    if (a != null) {
+                        addr = a.toString();
+                        type = getScriptType(addr);
+                    }
+                }
+            } catch (Exception ignored) {}
+            addIoRow(toContainer, addr, type, value);
         }
-        toSummary.setText("Total: " + totalOut.toPlainString() + " BTC to " + outCount);
+        toSummary.setText("Total: " + totalOut.toFriendlyString() + " to " + outCount);
     }
 
     private void addIoRow(LinearLayout container, String address, String type, Coin value) {
         TextView tv = new TextView(this);
-        String valStr = value != null ? value.toPlainString() + " BTC" : "? BTC";
-        tv.setText(address + (type.isEmpty() ? "" : " (" + type + ")") + " - " + valStr);
-        tv.setTextColor(ContextCompat.getColor(this, R.color.tx_text_primary));
+        String valStr = value != null ? value.toFriendlyString() : "? BTC";
+        tv.setText(address + " (" + type + ") - " + valStr);
+        tv.setTextColor(getResources().getColor(R.color.tx_text_primary, null));
         tv.setTextSize(13);
-        tv.setPadding(0, 6, 0, 6);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        container.addView(tv, lp);
+        tv.setPadding(0, 12, 0, 12);
+        container.addView(tv, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
-    private String getScriptType(Script script) {
-        if (ScriptPattern.isP2WPKH(script)) return "P2WPKH";
-        if (ScriptPattern.isP2PKH(script)) return "P2PKH";
-        if (ScriptPattern.isP2WSH(script)) return "P2WSH";
-        if (ScriptPattern.isP2SH(script)) return "P2SH";
-        return "";
+    private String getScriptType(String addr) {
+        if (addr.startsWith("bc1q") || addr.startsWith("tb1q")) return "P2WPKH";
+        if (addr.startsWith("bc1p") || addr.startsWith("tb1p")) return "P2TR";
+        if (addr.startsWith("bc1") || addr.startsWith("tb1")) return "P2WSH";
+        if (addr.startsWith("3") || addr.startsWith("2")) return "P2SH";
+        if (addr.startsWith("1") || addr.startsWith("m") || addr.startsWith("n")) return "P2PKH";
+        return "nonstandard";
     }
 
     @Override
