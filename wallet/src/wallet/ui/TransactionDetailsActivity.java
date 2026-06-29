@@ -1,11 +1,12 @@
 package wallet.ui;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,8 +37,11 @@ public class TransactionDetailsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_details);
 
-        View btnBack = findViewById(R.id.btn_back);
-        if (btnBack != null) btnBack.setOnClickListener(v -> finish());
+        ActionBar ab = getActionBar();
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setTitle("Transaction Details");
+        }
 
         tvDirection = findViewById(R.id.tv_direction);
         tvAmount = findViewById(R.id.tv_amount);
@@ -64,7 +68,6 @@ public class TransactionDetailsActivity extends Activity {
         } catch (Exception e) { tx = null; }
         if (tx == null) { Toast.makeText(this, "Transaction not found", Toast.LENGTH_SHORT).show(); finish(); return; }
 
-        // Amount
         Coin value = Coin.ZERO;
         try { Coin v = tx.getValue(wallet); if (v != null) value = v; } catch (Exception ignored) {}
         boolean isSend = value.isNegative();
@@ -76,7 +79,6 @@ public class TransactionDetailsActivity extends Activity {
             tvAmount.setTextColor(getResources().getColor(isSend ? R.color.tx_amount_sent : R.color.tx_amount_recv));
         } catch (Exception ignored) {}
 
-        // Confidence
         TransactionConfidence confidence = tx.getConfidence();
         int depth = 0;
         boolean confirmed = false;
@@ -91,12 +93,10 @@ public class TransactionDetailsActivity extends Activity {
             tvStatus.setTextColor(getResources().getColor(confirmed ? R.color.tx_status_ok : R.color.tx_status_pending));
         } catch (Exception ignored) {}
 
-        // Fee
         Coin fee = null;
         try { fee = tx.getFee(); } catch (Exception ignored) {}
         tvFee.setText(fee != null ? fee.toPlainString() + " BTC" : "—");
 
-        // Time
         Date updateTime = null;
         try { updateTime = tx.getUpdateTime(); } catch (Exception ignored) {}
         if (updateTime != null) {
@@ -105,12 +105,10 @@ public class TransactionDetailsActivity extends Activity {
             tvTime.setText("—");
         }
 
-        // Confirmations
         String confStr = (depth > 0 ? depth + " confirmations" : "unconfirmed") +
                 (height > 0 ? " · height " + height : "");
         tvHeight.setText(confStr);
 
-        // Size / weight
         int size = 0, weight = 0;
         boolean rbf = false;
         try { size = tx.getMessageSize(); } catch (Exception ignored) {}
@@ -126,7 +124,6 @@ public class TransactionDetailsActivity extends Activity {
         }
         tvMeta.setText(size + " bytes · " + weight + " wu" + feeRate + (rbf ? " · RBF" : ""));
 
-        // From / To
         String fromAddr = null;
         String toAddr = null;
         try {
@@ -152,6 +149,15 @@ public class TransactionDetailsActivity extends Activity {
         String hash = tx.getTxId().toString();
         tvTxid.setText(hash);
         copyOnClick(tvTxid, hash);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private String getAddressFromScript(Script script, NetworkParameters params) {
