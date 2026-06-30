@@ -58,6 +58,19 @@ public class TransactionDetailsActivity extends Activity {
     private Bitmap currentQrBitmap;
     private TextView tvTxidCopy;
 
+    // --- LIVE PATCH: giữ tx/wallet/params để listener dùng ---
+    private Transaction tx;
+    private Wallet wallet;
+    private NetworkParameters params;
+
+    private final TransactionConfidence.Listener confidenceListener = new TransactionConfidence.Listener() {
+        @Override
+        public void onConfidenceChanged(TransactionConfidence confidence, TransactionConfidence.Listener.ChangeReason reason) {
+            runOnUiThread(() -> refreshLiveFields());
+        }
+    };
+    // --- END LIVE PATCH ---
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,16 +109,15 @@ public class TransactionDetailsActivity extends Activity {
 
         // Load wallet
         WalletApplication app = (WalletApplication) getApplication();
-        Wallet wallet = app.getWallet();
+        wallet = app.getWallet();
         if (wallet == null) {
             Toast.makeText(this, "Wallet not ready", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
-        NetworkParameters params = wallet.getNetworkParameters();
+        params = wallet.getNetworkParameters();
 
         // Load transaction
-        Transaction tx;
         try {
             tx = wallet.getTransaction(Sha256Hash.wrap(txidStr));
         } catch (Exception e) {
@@ -134,30 +146,8 @@ public class TransactionDetailsActivity extends Activity {
         } catch (Exception ignored) {}
 
         // --- Confirmation status: Pending / Building / Confirmed ---
-        TransactionConfidence confidence = tx.getConfidence();
-        int depth = 0;
-        int height = 0;
-        if (confidence != null) {
-            try { depth = confidence.getDepthInBlocks(); } catch (Exception ignored) {}
-            try { height = confidence.getAppearedAtChainHeight(); } catch (Exception ignored) {}
-        }
-
-        String statusText;
-        int statusColorRes;
-        if (depth <= 0) {
-            statusText = "Pending";
-            statusColorRes = R.color.tx_status_pending;
-        } else if (depth < 6) {
-            statusText = "Building";
-            statusColorRes = R.color.tx_status_building;
-        } else {
-            statusText = "Confirmed";
-            statusColorRes = R.color.tx_status_ok;
-        }
-        tvStatus.setText(statusText);
-        try {
-            tvStatus.setTextColor(getResources().getColor(statusColorRes));
-        } catch (Exception ignored) {}
+        // LIVE PATCH: logic này giờ nằm trong refreshLiveFields(), gọi 1 lần ở đây để fill ban đầu
+        refreshLiveFields();
 
         // --- Fee ---
         Coin fee = null;
@@ -172,18 +162,6 @@ public class TransactionDetailsActivity extends Activity {
         } else {
             tvTime.setText("—");
         }
-
-        // --- Confirmations ---
-        String confStr;
-        if (depth <= 0) {
-            confStr = "unconfirmed";
-        } else {
-            confStr = depth + " confirmations";
-        }
-        if (height > 0) {
-            confStr += " · height " + height;
-        }
-        tvHeight.setText(confStr);
 
         // --- Size / weight / fee rate / RBF ---
         int size = 0, weight = 0;
@@ -286,7 +264,20 @@ public class TransactionDetailsActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        updateLiveQr();
+        // LIVE PATCH: đăng ký listener, refresh ngay
+        if (tx != null && tx.getConfidence() != null) {
+            tx.getConfidence().addEventListener(confidenceListener);
+        }
+        refreshLiveFields();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // LIVE PATCH: gỡ listener tránh leak
+        if (tx != null && tx.getConfidence() != null) {
+            tx.getConfidence().removeEventListener(confidenceListener);
+        }
     }
 
     @Override
@@ -472,4 +463,49 @@ public class TransactionDetailsActivity extends Activity {
         }
         return bmp;
     }
+
+    // ---------- LIVE PATCH: refresh status/conf + QR ----------
+    private void refreshLiveFields() {
+        if (tx == null || tvStatus == null || tvHeight == null) return;
+
+        TransactionConfidence confidence = tx.getConfidence();
+        int depth = 0;
+        int height = 0;
+        if (confidence != null) {
+            try { depth = confidence.getDepthInBlocks(); } catch (Exception ignored) {}
+            try { height = confidence.getAppearedAtChainHeight(); } catch (Exception ignored) {}
+        }
+
+        String statusText;
+        int statusColorRes;
+        if (depth <= 0) {
+            statusText = "Pending";
+            statusColorRes = R.color.tx_status_pending;
+        } else if (depth < 6) {
+            statusText = "Building";
+            statusColorRes = R.color.tx_status_building;
+        } else {
+            statusText = "Confirmed";
+            statusColorRes = R.color.tx_status_ok;
+        }
+        tvStatus.setText(statusText);
+        try {
+            tvStatus.setTextColor(getResources().getColor(statusColorRes));
+        } catch (Exception ignored) {}
+
+        String confStr;
+        if (depth <= 0) {
+            confStr = "unconfirmed";
+        } else {
+            confStr = depth + " confirmations";
+        }
+        if (height > 0) {
+            confStr += " · height " + height;
+        }
+        tvHeight.setText(confStr);
+
+        // QR update theo số confirmation mới
+        updateLiveQr();
+    }
+    // ---------- END LIVE PATCH ----------
 }
