@@ -80,7 +80,6 @@ public class TransactionDetailsActivity extends Activity {
             tvAmount.setTextColor(getResources().getColor(isSend ? R.color.tx_amount_sent : R.color.tx_amount_recv));
         } catch (Exception ignored) {}
 
-        // Status 3 levels: Pending / Building / Confirmed
         TransactionConfidence confidence = tx.getConfidence();
         int depth = 0;
         int height = 0;
@@ -118,7 +117,6 @@ public class TransactionDetailsActivity extends Activity {
             tvTime.setText("—");
         }
 
-        // Confirmations - live real count
         String confStr;
         if (depth <= 0) {
             confStr = "unconfirmed";
@@ -145,7 +143,7 @@ public class TransactionDetailsActivity extends Activity {
         }
         tvMeta.setText(size + " bytes · " + weight + " wu" + feeRate + (rbf ? " · RBF" : ""));
 
-        // ===== FROM / TO full list - fix trên file gốc =====
+        // From / To full list
         StringBuilder fromSb = new StringBuilder();
         Coin totalFrom = Coin.ZERO;
         int inCount = 0;
@@ -194,7 +192,6 @@ public class TransactionDetailsActivity extends Activity {
         tvTo.setText(toText);
         copyOnClick(tvFrom, fromText);
         copyOnClick(tvTo, toText);
-        // ===== end fix =====
 
         String hash = tx.getTxId().toString();
         tvTxid.setText(hash);
@@ -221,7 +218,6 @@ public class TransactionDetailsActivity extends Activity {
         }
     }
 
-    // thêm helper detect type, giống code trong WalletTransactionsFragment của mày
     private String getAddressType(String addr, Script script) {
         try {
             if (script != null && ScriptPattern.isOpReturn(script)) return "OP_RETURN";
@@ -233,48 +229,6 @@ public class TransactionDetailsActivity extends Activity {
         if (addr.startsWith("3") || addr.startsWith("2")) return "P2SH";
         if (addr.startsWith("1") || addr.startsWith("m") || addr.startsWith("n")) return "P2PKH";
         return "nonstandard";
-    }
-
-    private String getInputAddress(Transaction tx, NetworkParameters params, Wallet wallet, Boolean mineOnly) {
-        if (tx.getInputs() == null) return null;
-        for (TransactionInput in : tx.getInputs()) {
-            try {
-                TransactionOutPoint outpoint = in.getOutpoint();
-                if (outpoint != null && outpoint.getConnectedOutput() != null) {
-                    TransactionOutput connected = outpoint.getConnectedOutput();
-                    if (mineOnly != null) {
-                        boolean isMine;
-                        try { isMine = connected.isMine(wallet); } catch (Exception e) { continue; }
-                        if (isMine != mineOnly) continue;
-                    }
-                    String a = getAddressFromScript(connected.getScriptPubKey(), params);
-                    if (a != null) return a;
-                }
-                if (mineOnly == null) {
-                    try {
-                        String a = getAddressFromScript(in.getScriptSig(), params);
-                        if (a != null) return a;
-                    } catch (Exception ignored) {}
-                }
-            } catch (Exception ignored) {}
-        }
-        return null;
-    }
-
-    private String getOutputAddress(Transaction tx, NetworkParameters params, Wallet wallet, Boolean mineOnly) {
-        if (tx.getOutputs() == null) return null;
-        for (TransactionOutput out : tx.getOutputs()) {
-            try {
-                if (mineOnly != null) {
-                    boolean isMine;
-                    try { isMine = out.isMine(wallet); } catch (Exception e) { continue; }
-                    if (isMine != mineOnly) continue;
-                }
-                String a = getAddressFromScript(out.getScriptPubKey(), params);
-                if (a != null) return a;
-            } catch (Exception ignored) {}
-        }
-        return null;
     }
 
     private void copyOnClick(TextView tv, String text) {
