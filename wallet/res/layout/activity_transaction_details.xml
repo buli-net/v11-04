@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Amount card - with live QR right aligned -->
+        <!-- Amount card -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp">
-
+                <!-- Direction label - 20sp bold to match ActionBar title -->
                 <TextView android:id="@+id/tv_direction"
                     android:textStyle="bold"
                     android:textSize="20sp"
@@ -35,18 +35,17 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
-
+                <!-- Amount value - color is set in code (sent=red / recv=green) -->
                 <TextView android:id="@+id/tv_amount"
                     android:textSize="28sp"
                     android:textStyle="bold"
+                    android:layout_marginTop="4dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/iv_tx_qr"
                     app:layout_constraintTop_toBottomOf="@id/tv_direction"
-                    android:layout_marginTop="4dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
-
-                <!-- Live QR - right aligned, auto reposition on rotation -->
+                <!-- Live QR - right aligned -->
                 <ImageView android:id="@+id/iv_tx_qr"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
@@ -57,11 +56,11 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginStart="12dp" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
         <!-- Sender / Receiver card -->
+        <!-- Shows the counterparty address only, separate from the amount card -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,6 +73,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <!-- Card title - same style as other cards -->
                 <TextView android:text="Sender / Receiver"
                     android:textStyle="bold"
                     android:textSize="16sp"
@@ -93,6 +93,7 @@
                     android:textSize="13sp"
                     android:layout_marginTop="4dp"
                     android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                <!-- Thin divider between From and To -->
                 <View android:layout_width="match_parent" android:layout_height="1dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
@@ -132,6 +133,7 @@
                     android:layout_marginBottom="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+
                 <LinearLayout android:orientation="horizontal"
                     android:layout_width="match_parent" android:layout_height="wrap_content">
                     <TextView android:text="Status"
@@ -142,6 +144,7 @@
                         android:layout_width="0dp" android:layout_weight="1"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
+
                 <LinearLayout android:orientation="horizontal"
                     android:layout_marginTop="8dp"
                     android:layout_width="match_parent" android:layout_height="wrap_content">
@@ -202,6 +205,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <!-- Sent Details header -->
                 <TextView android:text="Sent Details"
                     android:textStyle="bold"
                     android:textSize="16sp"
@@ -219,58 +223,10 @@
                     android:layout_width="match_parent" android:layout_height="wrap_content"/>
                 <View android:layout_width="match_parent" android:layout_height="1dp"
                     android:background="#33000000"/>
+                <!-- Received Details header -->
                 <TextView android:text="Received Details"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:textColor="@color/tx_text_primary"
                     android:layout_marginTop="12dp"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-                <TextView android:id="@+id/tv_to"
-                    android:textColor="@color/tx_text_secondary"
-                    android:textIsSelectable="true"
-                    android:fontFamily="monospace"
-                    android:textSize="13sp"
-                    android:lineSpacingExtra="2dp"
-                    android:breakStrategy="simple"
-                    android:layout_marginTop="4dp"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Transaction ID card -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="2dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/tx_card_bg">
-            <LinearLayout
-                android:padding="16dp"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView android:text="Transaction ID"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:textColor="@color/tx_text_primary"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-                <TextView android:id="@+id/tv_txid"
-                    android:textColor="@color/tx_text_secondary"
-                    android:textIsSelectable="true"
-                    android:fontFamily="monospace"
-                    android:layout_marginTop="4dp"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
-                <TextView android:id="@+id/tv_txid_copy"
-                    android:text="Tap to copy"
-                    android:textColor="@color/tx_text_secondary"
-                    android:textSize="12sp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:layout_marginTop="4dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
-</ScrollView>
+                    android:layout
