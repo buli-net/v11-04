@@ -463,10 +463,6 @@ qrDialog = new Dialog(this, dialogTheme);
 if (android.os.Build.VERSION.SDK_INT >= 21) {
     qrDialog.getWindow().setStatusBarColor(bgColor);
 }
-
-/* if (android.os.Build.VERSION.SDK_INT >= 21) {
-    qrDialog.getWindow().setStatusBarColor(bgColor);
-}
         
 // qrDialog.getWindow().setStatusBarColor(bgColor);
 qrDialog.getWindow().getDecorView().setSystemUiVisibility(
