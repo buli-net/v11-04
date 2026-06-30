@@ -10,8 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -447,7 +445,6 @@ public class TransactionDetailsActivity extends Activity {
     private void showQrDialog() {
         boolean dark = isDark();
         int bgColor = dark ? Color.BLACK : Color.WHITE;
-        int fgColor = dark ? Color.WHITE : Color.BLACK;
 
         qrDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
 
@@ -476,9 +473,9 @@ public class TransactionDetailsActivity extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        bar.addView(makeActionButton(android.R.drawable.ic_menu_save, "Save", fgColor, v -> saveQrBitmap()));
-        bar.addView(makeActionButton(android.R.drawable.ic_menu_share, "Share", fgColor, v -> shareTx()));
-        bar.addView(makeActionButton(android.R.drawable.ic_menu_search, "Explore", fgColor, v -> exploreTx()));
+        bar.addView(makeActionButton(android.R.drawable.ic_menu_save, "Save", dark, v -> saveQrBitmap()));
+        bar.addView(makeActionButton(android.R.drawable.ic_menu_share, "Share", dark, v -> shareTx()));
+        bar.addView(makeActionButton(android.R.drawable.ic_menu_search, "Explore", dark, v -> exploreTx()));
 
         root.addView(bar);
         qrDialog.setContentView(root);
@@ -491,7 +488,7 @@ public class TransactionDetailsActivity extends Activity {
         updateLiveQr();
     }
 
-    private LinearLayout makeActionButton(int iconRes, String label, int tint, android.view.View.OnClickListener onClick) {
+    private LinearLayout makeActionButton(int iconRes, String label, boolean dark, android.view.View.OnClickListener onClick) {
         LinearLayout col = new LinearLayout(this);
         col.setOrientation(LinearLayout.VERTICAL);
         col.setGravity(Gravity.CENTER);
@@ -502,14 +499,8 @@ public class TransactionDetailsActivity extends Activity {
         col.setPadding(8, 8, 8, 8);
 
         ImageView iv = new ImageView(this);
-        // Tint qua DrawableCompat để icon hệ thống xám cũng thành đen/trắng đặc
-        Drawable d = androidx.core.content.ContextCompat.getDrawable(this, iconRes);
-        if (d != null) {
-            d = androidx.core.graphics.drawable.DrawableCompat.wrap(d).mutate();
-            androidx.core.graphics.drawable.DrawableCompat.setTint(d, tint);
-            androidx.core.graphics.drawable.DrawableCompat.setTintMode(d, PorterDuff.Mode.SRC_IN);
-            iv.setImageDrawable(d);
-        }
+        // icon mặc định hệ thống, không ép màu
+        iv.setImageResource(iconRes);
         int iconSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 36, getResources().getDisplayMetrics());
         LinearLayout.LayoutParams ivLp = new LinearLayout.LayoutParams(iconSize, iconSize);
         ivLp.gravity = Gravity.CENTER;
@@ -518,7 +509,8 @@ public class TransactionDetailsActivity extends Activity {
 
         TextView tv = new TextView(this);
         tv.setText(label);
-        tv.setTextColor(tint);
+        // chữ xám cùng tông với icon hệ thống
+        tv.setTextColor(dark ? 0xFFBBBBBB : 0xFF666666);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
         tv.setGravity(Gravity.CENTER);
         tv.setPadding(0, 8, 0, 0);
