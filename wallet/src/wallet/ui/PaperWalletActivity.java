@@ -155,24 +155,25 @@ public class PaperWalletActivity extends AbstractWalletActivity {
         }
 
         qrAddressView.setImageBitmap(makeQr(currentAddress));
-        qrKeyView.setImageBitmap(makeQr(currentPrivKeyWif));
-
+        // QR key sẽ được update trong updatePrivKeyView()
         Toast.makeText(this, R.string.paper_wallet_generated, Toast.LENGTH_SHORT).show();
     }
 
     private void updatePrivKeyView() {
+        String baseLabel = getString(R.string.paper_wallet_key_label);
         if (keyVisible) {
             String keyText = privKeyHexMode ? currentPrivKeyHex : currentPrivKeyWif;
             privKeyView.setText(keyText);
             toggleKeyButton.setText(R.string.paper_wallet_hide_key);
             if (privKeyFormatBtn != null) privKeyFormatBtn.setText(privKeyHexMode ? "HEX" : "WIF");
-            if (privKeyLabelView != null) {
-                String base = getString(R.string.paper_wallet_key_label);
-                privKeyLabelView.setText(base + (privKeyHexMode ? " (HEX)" : " (WIF)"));
-            }
+            if (privKeyLabelView != null) privKeyLabelView.setText(baseLabel + (privKeyHexMode ? " (HEX)" : " (WIF)"));
+            // QR đổi theo WIF/HEX
+            if (qrKeyView != null) qrKeyView.setImageBitmap(makeQr(keyText));
         } else {
             privKeyView.setText("••••••••••••••••••••••••");
             toggleKeyButton.setText(R.string.paper_wallet_show_key);
+            if (privKeyLabelView != null) privKeyLabelView.setText(baseLabel);
+            // khi ẩn key thì không đổi QR, giữ nguyên để khỏi lộ
         }
     }
 
@@ -194,18 +195,25 @@ public class PaperWalletActivity extends AbstractWalletActivity {
         Toast.makeText(this, label + " copied", Toast.LENGTH_SHORT).show();
     }
 
-    // render cho in / share / save - nền trắng chữ đen
+    // Render cho in / share / save - nền trắng chữ đen
     private Bitmap buildPrintBitmap() {
         View printView = getLayoutInflater().inflate(R.layout.paper_wallet_print, null);
         
+        String privKeyForPrint = privKeyHexMode ? currentPrivKeyHex : currentPrivKeyWif;
         ((TextView) printView.findViewById(R.id.print_address)).setText(currentAddress);
         ((TextView) printView.findViewById(R.id.print_pubkey)).setText(currentPubKey);
-        ((TextView) printView.findViewById(R.id.print_privkey)).setText(privKeyHexMode ? currentPrivKeyHex : currentPrivKeyWif);
+        ((TextView) printView.findViewById(R.id.print_privkey)).setText(privKeyForPrint);
         ((TextView) printView.findViewById(R.id.print_address_type)).setText(
             addressType == ScriptType.P2PKH ? "Legacy P2PKH" : "SegWit bech32"
         );
         ((ImageView) printView.findViewById(R.id.print_qr_address)).setImageBitmap(makeQr(currentAddress));
-        ((ImageView) printView.findViewById(R.id.print_qr_key)).setImageBitmap(makeQr(currentPrivKeyWif));
+        ((ImageView) printView.findViewById(R.id.print_qr_key)).setImageBitmap(makeQr(privKeyForPrint));
+
+        // update label private key trong bản in
+        View privLabel = printView.findViewWithTag("print_privkey_label");
+        if (privLabel instanceof TextView) {
+            ((TextView) privLabel).setText("Private key" + (privKeyHexMode ? " (HEX)" : " (WIF)"));
+        }
 
         int widthSpec = View.MeasureSpec.makeMeasureSpec(720, View.MeasureSpec.EXACTLY);
         int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
