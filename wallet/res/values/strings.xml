@@ -379,4 +379,19 @@
     <string name="error_parse">Parse error: %s</string>
     <string name="error_http">HTTP error %1$s:\n%2$s</string>
     <string name="error_bluetooth">Bluetooth error: %1$s</string>
+
+   <!-- create paper wallet -->
+    <string name="paper_wallet_warning">Anyone with the private key can spend. Store offline.</string>
+    <string name="paper_wallet_address_label">Address</string>
+    <string name="paper_wallet_pubkey_label">Public key</string>
+    <string name="paper_wallet_key_label">Private key (WIF)</string>
+    <string name="paper_wallet_copy">Copy</string>
+    <string name="paper_wallet_show_key">Show</string>
+    <string name="paper_wallet_hide_key">Hide</string>
+    <string name="paper_wallet_generate_new">Generate new</string>
+    <string name="paper_wallet_save">Save</string>
+    <string name="paper_wallet_share">Share</string>
+    <string name="paper_wallet_print">Print</string>
+    <string name="paper_wallet_generated">New paper wallet generated</string>
+    
 </resources>
