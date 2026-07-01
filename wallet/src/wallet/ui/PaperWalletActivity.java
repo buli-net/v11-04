@@ -41,8 +41,8 @@ public class PaperWalletActivity extends AbstractWalletActivity {
 
     private View cardView;
     private ImageView qrAddressView, qrKeyView;
-    private TextView addressView, pubKeyView, privKeyView, addressTypeView;
-    private Button toggleKeyButton;
+    private TextView addressView, pubKeyView, privKeyView, addressTypeView, privKeyLabelView;
+    private Button toggleKeyButton, privKeyFormatBtn, exportTxtBtn;
     private boolean keyVisible = true;
     private boolean privKeyHexMode = false;
 
@@ -72,6 +72,7 @@ public class PaperWalletActivity extends AbstractWalletActivity {
         pubKeyView = findViewById(R.id.paper_wallet_pubkey);
         privKeyView = findViewById(R.id.paper_wallet_key);
         addressTypeView = findViewById(R.id.paper_wallet_address_type);
+        privKeyLabelView = findViewById(R.id.paper_wallet_key_label);
 
         if (qrAddressView != null) qrAddressView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         if (qrKeyView != null) qrKeyView.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -80,30 +81,34 @@ public class PaperWalletActivity extends AbstractWalletActivity {
         findViewById(R.id.paper_wallet_copy_pubkey).setOnClickListener(v -> copyText("Public key", currentPubKey));
         findViewById(R.id.paper_wallet_copy_privkey).setOnClickListener(v -> copyText("Private key", privKeyHexMode ? currentPrivKeyHex : currentPrivKeyWif));
 
-        // bấm vào private key để đổi WIF / HEX
-        privKeyView.setOnClickListener(v -> {
-            if (!keyVisible) return;
-            privKeyHexMode = !privKeyHexMode;
-            updatePrivKeyView();
-            Toast.makeText(this, privKeyHexMode ? "Private key: HEX" : "Private key: WIF", Toast.LENGTH_SHORT).show();
-        });
+        // tap private key để đổi WIF/HEX luôn cho nhanh
+        privKeyView.setOnClickListener(v -> togglePrivKeyFormat());
 
         toggleKeyButton = findViewById(R.id.paper_wallet_toggle_key);
         toggleKeyButton.setOnClickListener(v -> toggleKeyVisibility());
 
+        privKeyFormatBtn = findViewById(R.id.paper_wallet_privkey_format);
+        if (privKeyFormatBtn != null) {
+            privKeyFormatBtn.setOnClickListener(v -> togglePrivKeyFormat());
+        }
+
         findViewById(R.id.paper_wallet_generate).setOnClickListener(v -> generateNew());
-        
+
         View saveBtn = findViewById(R.id.paper_wallet_save);
         saveBtn.setOnClickListener(v -> savePaperWallet());
-        // long-press SAVE để export txt
         saveBtn.setOnLongClickListener(v -> { exportWalletTxt(); return true; });
 
         findViewById(R.id.paper_wallet_share).setOnClickListener(v -> sharePaperWallet());
-        
+
         View printBtn = findViewById(R.id.paper_wallet_print);
         if (printBtn != null) {
             printBtn.setVisibility(View.VISIBLE);
             printBtn.setOnClickListener(v -> printPaperWallet());
+        }
+
+        exportTxtBtn = findViewById(R.id.paper_wallet_export_txt);
+        if (exportTxtBtn != null) {
+            exportTxtBtn.setOnClickListener(v -> exportWalletTxt());
         }
 
         if (addressTypeView != null) {
@@ -151,7 +156,6 @@ public class PaperWalletActivity extends AbstractWalletActivity {
         }
 
         qrAddressView.setImageBitmap(makeQr(currentAddress));
-        // QR private key luôn là WIF để quét được
         qrKeyView.setImageBitmap(makeQr(currentPrivKeyWif));
 
         Toast.makeText(this, R.string.paper_wallet_generated, Toast.LENGTH_SHORT).show();
@@ -159,8 +163,14 @@ public class PaperWalletActivity extends AbstractWalletActivity {
 
     private void updatePrivKeyView() {
         if (keyVisible) {
-            privKeyView.setText(privKeyHexMode ? currentPrivKeyHex : currentPrivKeyWif);
+            String keyText = privKeyHexMode ? currentPrivKeyHex : currentPrivKeyWif;
+            privKeyView.setText(keyText);
             toggleKeyButton.setText(R.string.paper_wallet_hide_key);
+            if (privKeyFormatBtn != null) privKeyFormatBtn.setText(privKeyHexMode ? "HEX" : "WIF");
+            if (privKeyLabelView != null) {
+                String base = getString(R.string.paper_wallet_key_label);
+                privKeyLabelView.setText(base + (privKeyHexMode ? " (HEX)" : " (WIF)"));
+            }
         } else {
             privKeyView.setText("••••••••••••••••••••••••");
             toggleKeyButton.setText(R.string.paper_wallet_show_key);
@@ -170,6 +180,13 @@ public class PaperWalletActivity extends AbstractWalletActivity {
     private void toggleKeyVisibility() {
         keyVisible = !keyVisible;
         updatePrivKeyView();
+    }
+
+    private void togglePrivKeyFormat() {
+        if (!keyVisible) return;
+        privKeyHexMode = !privKeyHexMode;
+        updatePrivKeyView();
+        Toast.makeText(this, privKeyHexMode ? "Private key: HEX" : "Private key: WIF", Toast.LENGTH_SHORT).show();
     }
 
     private void copyText(String label, String text) {
