@@ -31,7 +31,9 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:background="#ffffff"
+            android:padding="8dp" />
 
         <TextView
             android:id="@+id/paper_wallet_address"
@@ -42,7 +44,6 @@
             android:gravity="center"
             android:layout_marginTop="8dp" />
 
-        <!-- CHÈN THÊM: chọn kiểu địa chỉ -->
         <TextView
             android:id="@+id/paper_wallet_address_type"
             android:layout_width="wrap_content"
@@ -86,6 +87,7 @@
             android:text="@string/paper_wallet_copy" />
 
         <TextView
+            android:id="@+id/paper_wallet_key_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/paper_wallet_key_label"
@@ -98,7 +100,9 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:background="#ffffff"
+            android:padding="8dp" />
 
         <TextView
             android:id="@+id/paper_wallet_key"
@@ -121,6 +125,14 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@string/paper_wallet_copy" />
+
+            <Button
+                android:id="@+id/paper_wallet_privkey_format"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="WIF" />
 
             <Button
                 android:id="@+id/paper_wallet_toggle_key"
@@ -173,6 +185,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/paper_wallet_print" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/paper_wallet_export_txt"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Export TXT" />
 
     </LinearLayout>
 </ScrollView>
