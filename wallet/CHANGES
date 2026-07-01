@@ -1,5 +1,16 @@
 
 v11.04 mod by buli
+
+* - 2/7/2026
++ Add Create paper wallet
+
+- Create file wallet/src/wallet/util/Bip38Helper.java
+- Create file wallet/res/layout/paper_wallet_print.xml
+- Create file wallet/res/layout/activity_paper_wallet.xml
+- Create file wallet/src/wallet/ui/PaperWalletActivity.java
+
+- Add code file 
+
 * - 29/06/2026
 
 + Fix theme ui setting bug light/dark
