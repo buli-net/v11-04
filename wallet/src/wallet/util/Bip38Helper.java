@@ -2,6 +2,7 @@ package wallet.util;
 
 import org.bitcoinj.base.ScriptType;
 import org.bitcoinj.base.Network;
+import org.bitcoinj.base.BitcoinNetwork;
 import org.bitcoinj.crypto.ECKey;
 
 import java.io.ByteArrayOutputStream;
@@ -18,20 +19,19 @@ public class Bip38Helper {
 
     private static final char[] BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz".toCharArray();
 
+    // bản mới – nhận Network
     public static String encrypt(ECKey key, String passphrase, Network network) throws Exception {
         byte[] privKeyBytes = key.getPrivKeyBytes();
         boolean compressed = key.isCompressed();
 
-        // BIP38 addresshash luôn dùng địa chỉ P2PKH legacy
         String address = key.toAddress(ScriptType.P2PKH, network).toString();
         byte[] addressHash = doubleSha256(address.getBytes(StandardCharsets.UTF_8));
         addressHash = Arrays.copyOf(addressHash, 4);
 
-        // scrypt N=16384, r=8, p=8
         byte[] derived = SCrypt.generate(
                 passphrase.getBytes(StandardCharsets.UTF_8),
                 addressHash,
-                16384, 8, 8, 64
+                16384, 8, 64
         );
         byte[] derivedHalf1 = Arrays.copyOfRange(derived, 0, 32);
         byte[] derivedHalf2 = Arrays.copyOfRange(derived, 32, 64);
@@ -70,6 +70,12 @@ public class Bip38Helper {
         System.arraycopy(checksum, 0, full, payload.length, 4);
 
         return base58Encode(full);
+    }
+
+    // overload tương thích với PaperWalletActivity cũ – nhận boolean
+    public static String encrypt(ECKey key, String passphrase, boolean isMainNet) throws Exception {
+        Network network = isMainNet? BitcoinNetwork.MAINNET : BitcoinNetwork.TESTNET;
+        return encrypt(key, passphrase, network);
     }
 
     private static byte[] doubleSha256(byte[] data) throws Exception {
