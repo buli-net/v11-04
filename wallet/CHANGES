@@ -9,13 +9,18 @@ v11.04 mod by buli
 - Create file wallet/res/layout/activity_paper_wallet.xml
 - Create file wallet/src/wallet/ui/PaperWalletActivity.java
 
-- Add code file 
+- Add code file wallet/res/xml/file_provider.xml [ add code line 9-->13 ]
+- Add code file wallet/AndroidManifest.xml [add code line 98-->105]
+- Add code file wallet/res/values/strings.xml [add code line 383 --> 402]
+- Add code file wallet/build.gradle [add code line 14]
+- Add code file wallet/src/wallet/ui/WalletActivity.java [ add code line 466--> 471]
+- Add code file wallet/res/menu/wallet_options.xml [add code line 71-->76]
 
 * - 29/06/2026
 
 + Fix theme ui setting bug light/dark
 
-- wallet/AndroidManifest.xml [ add line 194, <!-- line 195->196 --> ]
+- wallet/AndroidManifest.xml [ add line 195, <!-- line 196->197 --> ]
 - wallet/res/values-night/styles.xml [ add code line 56->87 ]
 - wallet/res/values/styles.xml [ add code line 130->161 ]
 - wallet/res/values/colors.xml [ add code line 20 --> 22 ]
