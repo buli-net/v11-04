@@ -10,7 +10,7 @@ configurations {
 }
 
 dependencies {
-
+implementation "androidx.print:print:1.0.0"
     implementation 'androidx.annotation:annotation:1.10.0'
     implementation 'androidx.core:core:1.18.0'
     implementation 'androidx.activity:activity:1.13.0'
