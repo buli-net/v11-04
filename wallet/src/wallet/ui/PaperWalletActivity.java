@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
+import androidx.print.PrintHelper;
 
 import org.bitcoinj.crypto.ECKey;
 import org.bitcoinj.base.Network;
@@ -35,18 +36,24 @@ import wallet.R;
 import wallet.util.Qr;
 
 public class PaperWalletActivity extends AbstractWalletActivity {
-    // dùng provider gốc của buli-net
-    private static final String FILE_PROVIDER_AUTHORITY = BuildConfig.APPLICATION_ID + ".file_attachment";
+    private static final int QR_SIZE = 512;
 
     private View cardView;
     private ImageView qrAddressView, qrKeyView;
-    private TextView addressView, pubKeyView, privKeyView;
+    private TextView addressView, pubKeyView, privKeyView, addressTypeView;
     private Button toggleKeyButton;
     private boolean keyVisible = true;
 
     private String currentAddress = "";
     private String currentPubKey = "";
     private String currentPrivKey = "";
+
+    // SegWit bech32 bc1q... | đổi thành ScriptType.P2PKH nếu muốn Legacy 1...
+    private ScriptType addressType = ScriptType.P2WPKH;
+
+    private String getFileProviderAuthority() {
+        return getPackageName() + ".file_attachment";
+    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -62,6 +69,10 @@ public class PaperWalletActivity extends AbstractWalletActivity {
         addressView = findViewById(R.id.paper_wallet_address);
         pubKeyView = findViewById(R.id.paper_wallet_pubkey);
         privKeyView = findViewById(R.id.paper_wallet_key);
+        addressTypeView = findViewById(R.id.paper_wallet_address_type);
+
+        if (qrAddressView != null) qrAddressView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        if (qrKeyView != null) qrKeyView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
         findViewById(R.id.paper_wallet_copy_address).setOnClickListener(v -> copyText("Address", currentAddress));
         findViewById(R.id.paper_wallet_copy_pubkey).setOnClickListener(v -> copyText("Public key", currentPubKey));
@@ -75,7 +86,17 @@ public class PaperWalletActivity extends AbstractWalletActivity {
         findViewById(R.id.paper_wallet_share).setOnClickListener(v -> sharePaperWallet());
         
         View printBtn = findViewById(R.id.paper_wallet_print);
-        if (printBtn != null) printBtn.setVisibility(View.GONE);
+        if (printBtn != null) {
+            printBtn.setVisibility(View.VISIBLE);
+            printBtn.setOnClickListener(v -> printPaperWallet());
+        }
+
+        if (addressTypeView != null) {
+            addressTypeView.setOnClickListener(v -> {
+                addressType = (addressType == ScriptType.P2PKH) ? ScriptType.P2WPKH : ScriptType.P2PKH;
+                generateNew();
+            });
+        }
 
         generateNew();
     }
@@ -88,11 +109,16 @@ public class PaperWalletActivity extends AbstractWalletActivity {
         return BitcoinNetwork.MAINNET;
     }
 
+    private Bitmap makeQr(String text) {
+        Bitmap qr = Qr.bitmap(text);
+        return Bitmap.createScaledBitmap(qr, QR_SIZE, QR_SIZE, false);
+    }
+
     private void generateNew() {
         final Network network = getNetwork();
         final ECKey key = new ECKey();
 
-        currentAddress = key.toAddress(ScriptType.P2PKH, network).toString();
+        currentAddress = key.toAddress(addressType, network).toString();
         currentPubKey = key.getPublicKeyAsHex();
         currentPrivKey = key.getPrivateKeyAsWiF(network);
 
@@ -100,8 +126,13 @@ public class PaperWalletActivity extends AbstractWalletActivity {
         pubKeyView.setText(currentPubKey);
         updatePrivKeyView();
 
-        qrAddressView.setImageBitmap(Qr.bitmap(currentAddress));
-        qrKeyView.setImageBitmap(Qr.bitmap(currentPrivKey));
+        if (addressTypeView != null) {
+            String label = (addressType == ScriptType.P2PKH) ? "Legacy P2PKH (1...)" : "SegWit bech32 (bc1q...) - tap to switch";
+            addressTypeView.setText(label);
+        }
+
+        qrAddressView.setImageBitmap(makeQr(currentAddress));
+        qrKeyView.setImageBitmap(makeQr(currentPrivKey));
 
         Toast.makeText(this, R.string.paper_wallet_generated, Toast.LENGTH_SHORT).show();
     }
@@ -167,7 +198,7 @@ public class PaperWalletActivity extends AbstractWalletActivity {
     private void sharePaperWallet() {
         try {
             File file = getShareFile();
-            Uri uri = FileProvider.getUriForFile(this, FILE_PROVIDER_AUTHORITY, file);
+            Uri uri = FileProvider.getUriForFile(this, getFileProviderAuthority(), file);
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("image/png");
             intent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -175,6 +206,16 @@ public class PaperWalletActivity extends AbstractWalletActivity {
             startActivity(Intent.createChooser(intent, getString(R.string.paper_wallet_share)));
         } catch (Exception e) {
             Toast.makeText(this, "Share failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void printPaperWallet() {
+        try {
+            PrintHelper helper = new PrintHelper(this);
+            helper.setScaleMode(PrintHelper.SCALE_MODE_FIT);
+            helper.printBitmap("Paper Wallet - " + currentAddress, renderCard());
+        } catch (Exception e) {
+            Toast.makeText(this, "Print failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
