@@ -48,7 +48,6 @@ public class PaperWalletActivity extends AbstractWalletActivity {
     private String currentPubKey = "";
     private String currentPrivKey = "";
 
-    // SegWit bech32 bc1q... | đổi thành ScriptType.P2PKH nếu muốn Legacy 1...
     private ScriptType addressType = ScriptType.P2WPKH;
 
     private String getFileProviderAuthority() {
@@ -127,7 +126,9 @@ public class PaperWalletActivity extends AbstractWalletActivity {
         updatePrivKeyView();
 
         if (addressTypeView != null) {
-            String label = (addressType == ScriptType.P2PKH) ? "Legacy P2PKH (1...)" : "SegWit bech32 (bc1q...) - tap to switch";
+            String label = (addressType == ScriptType.P2PKH)
+                ? "Legacy P2PKH (1...) - tap to switch"
+                : "SegWit bech32 (bc1q...) - tap to switch";
             addressTypeView.setText(label);
         }
 
