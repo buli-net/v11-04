@@ -18,7 +18,8 @@ import android.widget.Toast;
 import androidx.core.content.FileProvider;
 
 import org.bitcoinj.crypto.ECKey;
-import org.bitcoinj.core.NetworkParameters;
+import org.bitcoinj.base.Network;
+import org.bitcoinj.base.ScriptType;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -43,7 +44,7 @@ public class PaperWalletActivity extends AbstractWalletActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paper_wallet);
 
-        if (getActionBar() != null)
+        if (getActionBar()!= null)
             getActionBar().setDisplayHomeAsUpEnabled(true);
 
         cardView = findViewById(R.id.paper_wallet_card);
@@ -63,20 +64,20 @@ public class PaperWalletActivity extends AbstractWalletActivity {
         findViewById(R.id.paper_wallet_generate).setOnClickListener(v -> generateNew());
         findViewById(R.id.paper_wallet_save).setOnClickListener(v -> savePaperWallet());
         findViewById(R.id.paper_wallet_share).setOnClickListener(v -> sharePaperWallet());
-        
+
         View printBtn = findViewById(R.id.paper_wallet_print);
-        if (printBtn != null) printBtn.setVisibility(View.GONE);
+        if (printBtn!= null) printBtn.setVisibility(View.GONE);
 
         generateNew();
     }
 
     private void generateNew() {
-        final NetworkParameters params = Constants.NETWORK_PARAMETERS;
+        final Network network = Constants.NETWORK;
         final ECKey key = new ECKey();
 
-        currentAddress = key.toAddress(params).toString();
+        currentAddress = key.toAddress(ScriptType.P2PKH, network).toString();
         currentPubKey = key.getPublicKeyAsHex();
-        currentPrivKey = key.getPrivateKeyEncoded(params).toString();
+        currentPrivKey = key.getPrivateKeyAsWiF(network);
 
         addressView.setText(currentAddress);
         pubKeyView.setText(currentPubKey);
@@ -99,7 +100,7 @@ public class PaperWalletActivity extends AbstractWalletActivity {
     }
 
     private void toggleKeyVisibility() {
-        keyVisible = !keyVisible;
+        keyVisible =!keyVisible;
         updatePrivKeyView();
     }
 
