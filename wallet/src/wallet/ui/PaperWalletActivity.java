@@ -16,9 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
-import androidx.print.PrintHelper;
 
-import org.bitcoinj.core.ECKey;
+// --- ECKey import cho buli-net v11.04 ---
+// Nếu vẫn báo đỏ, mở SweepWalletActivity.java xem nó import ECKey từ đâu, copy y chang dòng đó vào đây
+import org.bitcoinj.crypto.ECKey;  // thử cái này trước
+// import org.bitcoinj.core.ECKey; // bản Schildbach cũ
+
 import org.bitcoinj.base.Address;
 import org.bitcoinj.base.Network;
 
@@ -65,7 +68,10 @@ public class PaperWalletActivity extends AbstractWalletActivity {
         findViewById(R.id.paper_wallet_generate).setOnClickListener(v -> generateNew());
         findViewById(R.id.paper_wallet_save).setOnClickListener(v -> savePaperWallet());
         findViewById(R.id.paper_wallet_share).setOnClickListener(v -> sharePaperWallet());
-        findViewById(R.id.paper_wallet_print).setOnClickListener(v -> printPaperWallet());
+        
+        // Nút Print tạm ẩn, vì chưa có androidx.print
+        View printBtn = findViewById(R.id.paper_wallet_print);
+        if (printBtn != null) printBtn.setVisibility(View.GONE);
 
         generateNew();
     }
@@ -77,7 +83,7 @@ public class PaperWalletActivity extends AbstractWalletActivity {
 
         currentAddress = address.toString();
         currentPubKey = key.getPublicKeyAsHex();
-        currentPrivKey = key.getPrivateKeyEncoded(network).toString();
+        currentPrivKey = key.getPrivateKeyAsEncoded(network).toString();
 
         addressView.setText(currentAddress);
         pubKeyView.setText(currentPubKey);
@@ -148,12 +154,6 @@ public class PaperWalletActivity extends AbstractWalletActivity {
         } catch (Exception e) {
             Toast.makeText(this, "Share failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void printPaperWallet() {
-        PrintHelper helper = new PrintHelper(this);
-        helper.setScaleMode(PrintHelper.SCALE_MODE_FIT);
-        helper.printBitmap("Paper Wallet", renderCard());
     }
 
     @Override
