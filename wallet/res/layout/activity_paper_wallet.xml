@@ -240,15 +240,14 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@string/paper_wallet_print" />
-            
-        </LinearLayout> 
 
-        <Button
-            android:id="@+id/paper_wallet_export_txt"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/paper_wallet_export_txt" />
+            <Button
+                android:id="@+id/paper_wallet_export_txt"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/paper_wallet_export_txt" />
 
     </LinearLayout> 
         
